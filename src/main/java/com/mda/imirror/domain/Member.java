@@ -6,8 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
+import java.util.List;
 
 @Entity
 @Getter
@@ -43,10 +42,10 @@ public class Member {
     private String role;
 
     @OneToMany(mappedBy = "memberPk")
-    private Set<Rom> memberPkRoms;
+    private List<Rom> memberPkRoms;
 
     @OneToMany(mappedBy = "memberPk")
-    private Set<Balance> memberPkBalances;
+    private List<Balance> memberPkBalances;
 }
 
 
