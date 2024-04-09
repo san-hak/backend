@@ -18,6 +18,7 @@ public class Member {
 
     @Id
     @Column(nullable = false, updatable = false, length = 36)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String memberPk;
 
     @Column(nullable = false)
@@ -36,7 +37,7 @@ public class Member {
     private Double memberWeight;
 
     @Column(nullable = false)
-    private Boolean personalInfoConsentation;
+    private Boolean personalInfoConsent;
 
     @Column(nullable = false, length = 10)
     private String role;
