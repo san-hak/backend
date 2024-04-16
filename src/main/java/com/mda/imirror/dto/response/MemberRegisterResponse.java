@@ -1,4 +1,4 @@
-package com.mda.imirror.domain.response;
+package com.mda.imirror.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
