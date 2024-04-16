@@ -51,6 +51,11 @@ public class Member {
 
     @OneToMany(mappedBy = "memberPk")
     private List<Balance> memberPkBalances;
+
+    public void changePassword(String password) {
+        this.memberPassword = password;
+    }
+
 }
 
 
