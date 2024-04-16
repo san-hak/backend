@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberRegisterResponse {
-    private String memberPk;
+    private String memberId;
     private String memberName;
 
 }

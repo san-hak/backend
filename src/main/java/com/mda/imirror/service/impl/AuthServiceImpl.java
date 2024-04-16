@@ -30,7 +30,7 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         memberRepository.save(member);
-        return MemberRegisterResponse.builder().memberName(request.getMemberName()).build();
+        return MemberRegisterResponse.builder().memberId(request.getMemberId()).memberName(request.getMemberName()).build();
     }
 
 }
