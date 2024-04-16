@@ -1,4 +1,4 @@
-package com.mda.imirror.domain;
+package com.mda.imirror.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,6 +21,12 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String memberPk;
 
+    @Column(unique = true, nullable = false)
+    private String memberId;
+
+    @Column(nullable = false)
+    private String memberPassword;
+
     @Column(nullable = false)
     private String memberName;
 
@@ -30,10 +36,8 @@ public class Member {
     @Column(nullable = false)
     private Integer memberAge;
 
-    @Column
     private Double memberHeight;
 
-    @Column
     private Double memberWeight;
 
     @Column(nullable = false)

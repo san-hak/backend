@@ -1,4 +1,4 @@
-package com.mda.imirror.domain;
+package com.mda.imirror.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
