@@ -2,6 +2,7 @@ package com.mda.imirror.repository;
 
 import com.mda.imirror.domain.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -9,4 +10,7 @@ import java.util.Optional;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, String> {
     Optional<Member> findByMemberId(String id);
+    @Query("UPDATE Member m " +
+            "set m.memberAge = m.memberAge + 1")
+    void updateMemberAge();
 }

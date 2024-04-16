@@ -4,6 +4,7 @@ import com.mda.imirror.domain.entity.Member;
 import com.mda.imirror.repository.MemberRepository;
 import com.mda.imirror.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +31,11 @@ public class MemberServiceImpl implements MemberService {
         } else {
             throw new RuntimeException("USER NOT FOUND");
         }
+    }
+
+    @Override
+    @Scheduled(cron = "0 0 0 1 1 ?")
+    public void updateAge() {
+        memberRepository.updateMemberAge();
     }
 }
