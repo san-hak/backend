@@ -33,9 +33,4 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
-    @Override
-    @Scheduled(cron = "0 0 0 1 1 ?")
-    public void updateAge() {
-        memberRepository.updateMemberAge();
-    }
 }
