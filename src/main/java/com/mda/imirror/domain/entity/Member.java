@@ -1,4 +1,4 @@
-package com.mda.imirror.domain;
+package com.mda.imirror.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,14 @@ public class Member {
 
     @Id
     @Column(nullable = false, updatable = false, length = 36)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String memberPk;
+
+    @Column(unique = true, nullable = false)
+    private String memberId;
+
+    @Column(nullable = false)
+    private String memberPassword;
 
     @Column(nullable = false)
     private String memberName;
@@ -29,14 +36,12 @@ public class Member {
     @Column(nullable = false)
     private Integer memberAge;
 
-    @Column
     private Double memberHeight;
 
-    @Column
     private Double memberWeight;
 
     @Column(nullable = false)
-    private Boolean personalInfoConsentation;
+    private Boolean personalInfoConsent;
 
     @Column(nullable = false, length = 10)
     private String role;
