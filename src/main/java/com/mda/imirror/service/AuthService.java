@@ -1,8 +1,8 @@
 package com.mda.imirror.service;
 
-import com.mda.imirror.domain.Member;
-import com.mda.imirror.domain.MemberRegisterRequest;
+import com.mda.imirror.domain.request.MemberRegisterRequest;
+import com.mda.imirror.domain.response.MemberRegisterResponse;
 
 public interface AuthService {
-    public Member register(MemberRegisterRequest request);
+    MemberRegisterResponse register(MemberRegisterRequest request);
 }

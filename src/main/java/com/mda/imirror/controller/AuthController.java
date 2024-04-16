@@ -1,7 +1,7 @@
 package com.mda.imirror.controller;
 
-import com.mda.imirror.domain.Member;
-import com.mda.imirror.domain.MemberRegisterRequest;
+import com.mda.imirror.domain.request.MemberRegisterRequest;
+import com.mda.imirror.domain.response.MemberRegisterResponse;
 import com.mda.imirror.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity register(@RequestBody MemberRegisterRequest request) {
+    public ResponseEntity<MemberRegisterResponse> register(@RequestBody MemberRegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));
     }
 
