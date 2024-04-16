@@ -1,4 +1,4 @@
-package com.mda.imirror.domain.request;
+package com.mda.imirror.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

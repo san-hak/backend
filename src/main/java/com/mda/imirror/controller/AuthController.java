@@ -1,7 +1,7 @@
 package com.mda.imirror.controller;
 
-import com.mda.imirror.domain.request.MemberRegisterRequest;
-import com.mda.imirror.domain.response.MemberRegisterResponse;
+import com.mda.imirror.dto.request.MemberRegisterRequest;
+import com.mda.imirror.dto.response.MemberRegisterResponse;
 import com.mda.imirror.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
