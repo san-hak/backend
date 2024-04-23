@@ -10,7 +10,4 @@ import java.util.Optional;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, String> {
     Optional<Member> findByMemberId(String id);
-    @Query("UPDATE Member m " +
-            "set m.memberAge = m.memberAge + 1")
-    void updateMemberAge();
 }

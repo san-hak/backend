@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -22,7 +21,7 @@ public class MemberRegisterRequest {
     private Boolean memberGender;
     @NotBlank
     @Length(max = 8)
-    private LocalDateTime memberBirthDate;
+    private LocalDate memberBirthDate;
     private Double memberHeight;
     private Double memberWeight;
     @NotBlank

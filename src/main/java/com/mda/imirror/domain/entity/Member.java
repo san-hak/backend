@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -35,7 +35,7 @@ public class Member {
     private Boolean memberGender;
 
     @Column(nullable = false)
-    private LocalDateTime memberBirthDate;
+    private LocalDate memberBirthDate;
 
     private Double memberHeight;
 
