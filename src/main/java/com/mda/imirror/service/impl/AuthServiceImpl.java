@@ -25,7 +25,7 @@ public class AuthServiceImpl implements AuthService {
                 .memberPassword(passwordEncoder.encode(request.getMemberPassword()))
                 .memberName(request.getMemberName())
                 .memberGender(request.getMemberGender())
-                .memberAge(request.getMemberAge())
+                .memberBirthDate(request.getMemberBirthDate())
                 .memberHeight(request.getMemberHeight())
                 .memberWeight(request.getMemberWeight())
                 .personalInfoConsent(request.getPersonalInfoConsent())
