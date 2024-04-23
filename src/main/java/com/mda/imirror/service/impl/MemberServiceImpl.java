@@ -1,6 +1,7 @@
 package com.mda.imirror.service.impl;
 
 import com.mda.imirror.domain.entity.Member;
+import com.mda.imirror.dto.request.MemberChangeInfoRequest;
 import com.mda.imirror.repository.MemberRepository;
 import com.mda.imirror.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,23 @@ public class MemberServiceImpl implements MemberService {
         } else {
             throw new RuntimeException("USER NOT FOUND");
         }
+    }
+
+    @Override
+    public void changeMemberInfo(MemberChangeInfoRequest request) {
+        Member byMemberId = memberRepository.findByMemberId("") //로그인 구현 후 수정 예정
+                .orElseThrow(RuntimeException::new);
+
+        Member member = Member.builder()
+                //.memberId() 로그인 구현 후 정보 입력
+                .memberName(request.getMemberName().isBlank() ? byMemberId.getMemberName() : request.getMemberName())
+                .memberGender(request.getMemberGender() == null ? byMemberId.getMemberGender() : request.getMemberGender())
+                .memberBirthDate(request.getMemberBirthDate() == null ? byMemberId.getMemberBirthDate() : request.getMemberBirthDate())
+                .memberHeight(request.getMemberHeight() == null ? byMemberId.getMemberHeight() : request.getMemberHeight())
+                .memberWeight(request.getMemberWeight() == null ? byMemberId.getMemberWeight() : request.getMemberWeight())
+                .build();
+
+        memberRepository.save(member);
     }
 
 }
