@@ -11,10 +11,6 @@ import java.time.LocalDate;
 @Setter
 public class MemberRegisterRequest {
     @NotBlank
-    private String memberId;
-    @NotBlank
-    private String memberPassword;
-    @NotBlank
     @Length(max = 100)
     private String memberName;
     @NotBlank

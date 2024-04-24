@@ -21,11 +21,9 @@ public class AuthServiceImpl implements AuthService {
     public MemberRegisterResponse register(MemberRegisterRequest request) {
 
         Member member = Member.builder()
-                .memberId(request.getMemberId())
-                .memberPassword(passwordEncoder.encode(request.getMemberPassword()))
                 .memberName(request.getMemberName())
-                .memberGender(request.getMemberGender())
                 .memberBirthDate(request.getMemberBirthDate())
+                .memberGender(request.getMemberGender())
                 .memberHeight(request.getMemberHeight())
                 .memberWeight(request.getMemberWeight())
                 .personalInfoConsent(request.getPersonalInfoConsent())
@@ -33,7 +31,10 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         memberRepository.save(member);
-        return MemberRegisterResponse.builder().memberId(request.getMemberId()).memberName(request.getMemberName()).build();
+        return MemberRegisterResponse.builder()
+                .memberName(request.getMemberName())
+                .memberBirthDate(request.getMemberBirthDate())
+                .build();
     }
 
 }
