@@ -17,16 +17,7 @@ public class Balance {
 
     @Id
     @Column(nullable = false, updatable = false)
-    @SequenceGenerator(
-            name = "primary_sequence",
-            sequenceName = "primary_sequence",
-            allocationSize = 1,
-            initialValue = 10000
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "primary_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer balancePk;
 
     @Column(length = 10)
@@ -75,6 +66,6 @@ public class Balance {
     private Double waistAngle;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_pk_id", nullable = false)
+    @JoinColumn(name = "member_pk", nullable = false)
     private Member memberPk;
 }
