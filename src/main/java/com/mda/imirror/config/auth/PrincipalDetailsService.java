@@ -12,7 +12,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member member = memberRepository.findByMemberId(username)
+        Member member = memberRepository.findByMemberName(username)
                 .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 회원입니다."));
         return new PrincipalDetails(member);
     }

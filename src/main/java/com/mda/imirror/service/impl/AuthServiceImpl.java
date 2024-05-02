@@ -25,17 +25,15 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class AuthServiceImpl implements AuthService {
 
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
+//    private final PasswordEncoder passwordEncoder;
 
     @Override
     public MemberRegisterResponse register(MemberRegisterRequest request) {
 
         Member member = Member.builder()
-                .memberId(request.getMemberId())
-                .memberPassword(passwordEncoder.encode(request.getMemberPassword()))
                 .memberName(request.getMemberName())
-                .memberGender(request.getMemberGender())
                 .memberBirthDate(request.getMemberBirthDate())
+                .memberGender(request.getMemberGender())
                 .memberHeight(request.getMemberHeight())
                 .memberWeight(request.getMemberWeight())
                 .personalInfoConsent(request.getPersonalInfoConsent())
@@ -43,28 +41,23 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         memberRepository.save(member);
-
         return MemberRegisterResponse.builder()
-                .memberId(request.getMemberId())
                 .memberName(request.getMemberName())
+                .memberBirthDate(request.getMemberBirthDate())
                 .build();
     }
 
     @Override
     public MemberLoginResponse login(MemberLoginRequest request) {
-        Member member = memberRepository.findByMemberId(request.getMemberId())
+        Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 
-        if (!passwordEncoder.matches(request.getMemberPassword(), member.getMemberPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-        }
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(request.getMemberId(), request.getMemberPassword());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(request.getMemberName(), request.getMemberBirthDate());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
 
         return MemberLoginResponse.builder()
-                .memberId(member.getMemberId())
                 .memberName(member.getMemberName())
                 .memberGender(member.getMemberGender())
                 .memberBirthDate(member.getMemberBirthDate())

@@ -22,12 +22,6 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String memberPk;
 
-    @Column(unique = true, nullable = false)
-    private String memberId;
-
-    @Column(nullable = false)
-    private String memberPassword;
-
     @Column(nullable = false)
     private String memberName;
 
@@ -53,8 +47,14 @@ public class Member {
     @OneToMany(mappedBy = "memberPk")
     private List<Balance> memberPkBalances;
 
-    public void changePassword(String password) {
-        this.memberPassword = password;
+
+    public void changeMemberInfo(String memberName, LocalDate memberBirthDate, Double memberHeight, Double memberWeight, Boolean memberGender) {
+
+        this.memberName = memberName == null ? this.memberName : memberName;
+        this.memberBirthDate = memberBirthDate == null ? this.memberBirthDate : memberBirthDate;
+        this.memberHeight = memberHeight == null ? this.memberHeight : memberHeight;
+        this.memberWeight = memberWeight == null ? this.memberWeight : memberWeight;
+        this.memberGender = memberGender == null ? this.memberGender : memberGender;
     }
 
 }
