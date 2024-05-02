@@ -38,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void changeMemberInfo(MemberChangeInfoRequest request) {
+    public void changeMemberInfo(MemberChangeInfoRequest request) {  //for admin
         Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())
                 .orElseThrow(() -> new RuntimeException("USER NOT FOUND"));
         member.changeMemberInfo(
@@ -47,8 +47,23 @@ public class MemberServiceImpl implements MemberService {
                 request.getMemberHeight(),
                 request.getMemberWeight(),
                 request.getMemberGender());
+    }
 
+    @Override
+    @Transactional
+    public void changeMemberInfo(MemberChangeInfoRequest request, Member requester) {  //for user
+        Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())
+                .orElseThrow(() -> new RuntimeException("USER NOT FOUND"));
+        if (!member.getMemberName().equals(requester.getMemberName())) {
+            throw new RuntimeException("NOT AUTHORIZED");
+        }
 
+        member.changeMemberInfo(
+                request.getMemberName(),
+                request.getMemberBirthDate(),
+                request.getMemberHeight(),
+                request.getMemberWeight(),
+                request.getMemberGender());
     }
 
 }
