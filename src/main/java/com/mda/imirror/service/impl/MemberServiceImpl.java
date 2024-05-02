@@ -41,8 +41,9 @@ public class MemberServiceImpl implements MemberService {
 
 
     @Override
-    public MemberInquiryResponse findMemberByNameWithBirth(String name, LocalDate birth) {
-        return memberRepository.findByMemberNameAndMemberBirthDate(name, birth).map(MemberMapper.MAPPER::toDto)
+    public MemberInquiryResponse findMemberByNameWithBirth(String name, String birth) {
+        LocalDate localDate = LocalDate.parse(birth);
+        return memberRepository.findByMemberNameAndMemberBirthDate(name, localDate).map(MemberMapper.MAPPER::toDto)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public interface MemberService {
     // 더 이상 ID와 비밀번호를 쓰기 않음
 //    void changePassword(String originPassword, String changePassword, String memberId);
-    MemberInquiryResponse findMemberByNameWithBirth(String name, LocalDate birth);
+    MemberInquiryResponse findMemberByNameWithBirth(String name, String birth);
     Page<MemberInquiryResponse> InquiryMembers(PageRequest request);
     void changeMemberInfo(MemberChangeInfoRequest request);
     void changeMemberInfo(MemberChangeInfoRequest request, Member requester);

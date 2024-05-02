@@ -16,7 +16,7 @@ public class AdminController {
     private final MemberService memberService;
 
     @GetMapping("/{name}/{birth}")
-    public ResponseEntity getMember(@PathVariable String name, @PathVariable LocalDate birth) {
+    public ResponseEntity getMember(@PathVariable String name, @PathVariable String birth) {
         return ResponseEntity.ok(memberService.findMemberByNameWithBirth(name, birth));
     }
 
