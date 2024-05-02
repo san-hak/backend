@@ -1,6 +1,7 @@
 package com.mda.imirror.dto.mapper;
 
 public interface EntityMapper<D, E> {
-     D toDto(final E entity);
-     E toEntity(final D dto);
+    public D toDto(final E entity);
+
+    public E toEntity(final D dto);
 }
