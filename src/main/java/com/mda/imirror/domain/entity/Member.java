@@ -31,10 +31,6 @@ public class Member {
     @Column(nullable = false)
     private LocalDate memberBirthDate;
 
-    private Double memberHeight;
-
-    private Double memberWeight;
-
     @Column(nullable = false)
     private Boolean personalInfoConsent;
 
@@ -48,12 +44,10 @@ public class Member {
     private List<Balance> memberPkBalances;
 
 
-    public void changeMemberInfo(String memberName, LocalDate memberBirthDate, Double memberHeight, Double memberWeight, Boolean memberGender) {
+    public void changeMemberInfo(String memberName, LocalDate memberBirthDate, Boolean memberGender) {
 
         this.memberName = memberName == null ? this.memberName : memberName;
         this.memberBirthDate = memberBirthDate == null ? this.memberBirthDate : memberBirthDate;
-        this.memberHeight = memberHeight == null ? this.memberHeight : memberHeight;
-        this.memberWeight = memberWeight == null ? this.memberWeight : memberWeight;
         this.memberGender = memberGender == null ? this.memberGender : memberGender;
     }
 

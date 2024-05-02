@@ -15,8 +15,6 @@ public class MemberLoginResponse {
     private String memberName;
     private Boolean memberGender;
     private LocalDate memberBirthDate;
-    private Double memberHeight;
-    private Double memberWeight;
     private String role;
 
     private String sessionId;
