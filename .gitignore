@@ -36,4 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 /src/main/java/com/mda/imirror/domain/enums
+
 database.properties
+
