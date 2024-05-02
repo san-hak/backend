@@ -2,15 +2,13 @@ package com.mda.imirror.controller;
 
 import com.mda.imirror.domain.entity.Member;
 import com.mda.imirror.dto.request.CheckupResultRequest;
+import com.mda.imirror.dto.request.MemberNameAndBirthRequest;
 import com.mda.imirror.dto.response.CheckupResultResponse;
 import com.mda.imirror.service.CheckupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,7 +24,12 @@ public class CheckupController {
 
     @GetMapping
     public ResponseEntity<List<CheckupResultResponse>> getCheckupResult(@AuthenticationPrincipal Member member) {
-
         return ResponseEntity.ok(checkupService.getCheckupResult(member));
     }
+
+    @GetMapping
+    public ResponseEntity<List<CheckupResultResponse>> getCheckupResult(@PathVariable String name, @PathVariable String birth) {
+        return ResponseEntity.ok(checkupService.getCheckupResult(MemberNameAndBirthRequest.builder().name(name).birth(birth).build()));
+    }
+
 }

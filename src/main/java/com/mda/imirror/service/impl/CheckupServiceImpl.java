@@ -8,8 +8,10 @@ import com.mda.imirror.dto.checkup.RomDTO;
 import com.mda.imirror.dto.mapper.impl.BalanceMapper;
 import com.mda.imirror.dto.mapper.impl.RomMapper;
 import com.mda.imirror.dto.request.CheckupResultRequest;
+import com.mda.imirror.dto.request.MemberNameAndBirthRequest;
 import com.mda.imirror.dto.response.CheckupResultResponse;
 import com.mda.imirror.repository.BalanceRepository;
+import com.mda.imirror.repository.MemberRepository;
 import com.mda.imirror.repository.RomRepository;
 import com.mda.imirror.service.CheckupService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CheckupServiceImpl implements CheckupService {
+
+    private final MemberRepository memberRepository;
     private final RomRepository romRepository;
     private final BalanceRepository balanceRepository;
 
@@ -36,7 +40,19 @@ public class CheckupServiceImpl implements CheckupService {
     }
 
     @Override
+    public List<CheckupResultResponse> getCheckupResult(MemberNameAndBirthRequest request) {
+        Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getName(), request.birthToLocalDate(request.getBirth()))
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return getCheckupResultResponses(member);
+    }
+
+    @Override
     public List<CheckupResultResponse> getCheckupResult(Member member) {
+        return getCheckupResultResponses(member);
+    }
+
+    private List<CheckupResultResponse> getCheckupResultResponses(Member member) {
         List<Rom> roms = romRepository.findTop10ByMemberOrderByRomPkDesc(member);
         List<Balance> balances = balanceRepository.findTop10ByMemberOrderByBalancePkDesc(member);
 
