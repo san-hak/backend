@@ -18,8 +18,6 @@ public class MemberRegisterRequest {
     @NotBlank
     @Length(max = 8)
     private LocalDate memberBirthDate;
-    private Double memberHeight;
-    private Double memberWeight;
     @NotBlank
     private Boolean personalInfoConsent;
 }

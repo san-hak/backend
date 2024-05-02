@@ -9,7 +9,5 @@ public class MemberInquiryResponse {
     private String memberName;
     private String memberGender;
     private LocalDate memberBirthDate;
-    private Double memberHeight;
-    private Double memberWeight;
 
 }

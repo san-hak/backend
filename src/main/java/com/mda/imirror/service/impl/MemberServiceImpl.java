@@ -62,8 +62,6 @@ public class MemberServiceImpl implements MemberService {
         member.changeMemberInfo(
                 request.getMemberName(),
                 request.getMemberBirthDate(),
-                request.getMemberHeight(),
-                request.getMemberWeight(),
                 request.getMemberGender());
     }
 
@@ -79,8 +77,6 @@ public class MemberServiceImpl implements MemberService {
         member.changeMemberInfo(
                 request.getMemberName(),
                 request.getMemberBirthDate(),
-                request.getMemberHeight(),
-                request.getMemberWeight(),
                 request.getMemberGender());
     }
 

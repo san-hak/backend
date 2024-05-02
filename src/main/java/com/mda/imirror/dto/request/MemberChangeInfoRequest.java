@@ -12,7 +12,5 @@ public class MemberChangeInfoRequest {
     @Length(max = 100)
     private String memberName;
     private LocalDate memberBirthDate;
-    private Double memberHeight;
-    private Double memberWeight;
     private Boolean memberGender;
 }
