@@ -1,16 +1,14 @@
-package com.mda.imirror.dto.response;
+package com.mda.imirror.dto.request;
 
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.time.LocalDate;
 
-@Setter
 @Getter
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class MemberRegisterResponse {
+public class MemberLoginRequest {
     private String memberName;
     private LocalDate memberBirthDate;
-
 }

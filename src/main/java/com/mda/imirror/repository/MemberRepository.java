@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, String> {
     Optional<Member> findByMemberNameAndMemberBirthDate(String memberName, LocalDate memberBirthDate);
+    Optional<Member> findByMemberName(String memberName);
 
 
 }
