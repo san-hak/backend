@@ -45,7 +45,6 @@ public class AuthServiceImpl implements AuthService {
                 .memberName(request.getMemberName())
                 .memberBirthDate(request.getMemberBirthDate())
                 .build();
-
     }
 
     @Override
