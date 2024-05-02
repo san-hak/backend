@@ -67,5 +67,5 @@ public class Balance {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_pk", nullable = false)
-    private Member memberPk;
+    private Member member;
 }

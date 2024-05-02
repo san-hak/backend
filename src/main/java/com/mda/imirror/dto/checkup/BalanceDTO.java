@@ -1,4 +1,4 @@
-package com.mda.imirror.dto.response.checkup;
+package com.mda.imirror.dto.checkup;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +34,6 @@ public class BalanceDTO {
     private Double rightAnkleAngle;
 
     private Double neckAngle;
-    
+
     private Double waistAngle;
 }

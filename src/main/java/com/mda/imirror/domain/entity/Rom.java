@@ -18,7 +18,7 @@ public class Rom {
     @Id
     @Column(nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer balancePk;
+    private Integer romPk;
 
     @Column
     private Double sagittalNeckUpperAngle;
@@ -88,5 +88,5 @@ public class Rom {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_pk", nullable = false)
-    private Member memberPk;
+    private Member member;
 }
