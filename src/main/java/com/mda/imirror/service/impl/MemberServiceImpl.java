@@ -1,23 +1,26 @@
 package com.mda.imirror.service.impl;
 
 import com.mda.imirror.domain.entity.Member;
+import com.mda.imirror.dto.mapper.impl.MemberMapper;
 import com.mda.imirror.dto.request.MemberChangeInfoRequest;
+import com.mda.imirror.dto.request.PageRequest;
+import com.mda.imirror.dto.response.MemberInquiryResponse;
 import com.mda.imirror.repository.MemberRepository;
 import com.mda.imirror.service.MemberService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-//    private final PasswordEncoder passwordEncoder;
 
     // 더 이상 ID와 비밀번호를 쓰기 않음
 //    @Override
@@ -35,6 +38,20 @@ public class MemberServiceImpl implements MemberService {
 //            throw new RuntimeException("USER NOT FOUND");
 //        }
 //    }
+
+
+    @Override
+    public MemberInquiryResponse findMemberByNameWithBirth(String name, LocalDate birth) {
+        return memberRepository.findByMemberNameAndMemberBirthDate(name, birth).map(MemberMapper.MAPPER::toDto)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    @Override
+    public Page<MemberInquiryResponse> InquiryMembers(PageRequest request) {
+        Pageable pageable = request.getPageable(Sort.by("memberName"));
+        Page<Member> members = memberRepository.findAll(pageable);
+        return members.map(MemberMapper.MAPPER::toDto);
+    }
 
     @Override
     @Transactional
