@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
-@RestController("/api/admin")
+@RestController
+@RequestMapping("/api/admin")
 @RequiredArgsConstructor
 public class AdminController {
 

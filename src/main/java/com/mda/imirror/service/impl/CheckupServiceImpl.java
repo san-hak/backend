@@ -31,6 +31,8 @@ public class CheckupServiceImpl implements CheckupService {
         Rom rom = RomMapper.MAPPER.toEntity(request.getRom());
         Balance balance = BalanceMapper.MAPPER.toEntity(request.getBalance());
 
+
+
         romRepository.save(rom);
         balanceRepository.save(balance);
     }
