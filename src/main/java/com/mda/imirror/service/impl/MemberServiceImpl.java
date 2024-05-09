@@ -5,6 +5,8 @@ import com.mda.imirror.dto.mapper.impl.MemberMapper;
 import com.mda.imirror.dto.request.MemberChangeInfoRequest;
 import com.mda.imirror.dto.request.PageRequest;
 import com.mda.imirror.dto.response.MemberInquiryResponse;
+import com.mda.imirror.exception.NotFoundUserException;
+import com.mda.imirror.exception.UnAuthorizedException;
 import com.mda.imirror.repository.MemberRepository;
 import com.mda.imirror.service.MemberService;
 import jakarta.transaction.Transactional;
@@ -35,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
 //            }
 //
 //        } else {
-//            throw new RuntimeException("USER NOT FOUND");
+//            throw new NotFoundUserException;
 //        }
 //    }
 
@@ -44,7 +46,7 @@ public class MemberServiceImpl implements MemberService {
     public MemberInquiryResponse findMemberByNameWithBirth(String name, String birth) {
         LocalDate localDate = LocalDate.parse(birth);
         return memberRepository.findByMemberNameAndMemberBirthDate(name, localDate).map(MemberMapper.MAPPER::toDto)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(NotFoundUserException::new);
     }
 
     @Override
@@ -58,7 +60,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public void changeMemberInfo(MemberChangeInfoRequest request) {  //for admin
         Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())
-                .orElseThrow(() -> new RuntimeException("USER NOT FOUND"));
+                .orElseThrow(NotFoundUserException::new);
         member.changeMemberInfo(
                 request.getMemberName(),
                 request.getMemberBirthDate(),
@@ -69,9 +71,9 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public void changeMemberInfo(MemberChangeInfoRequest request, Member requester) {  //for user
         Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())
-                .orElseThrow(() -> new RuntimeException("USER NOT FOUND"));
+                .orElseThrow(NotFoundUserException::new);
         if (!member.getMemberName().equals(requester.getMemberName())) {
-            throw new RuntimeException("NOT AUTHORIZED");
+            throw new UnAuthorizedException();
         }
 
         member.changeMemberInfo(
