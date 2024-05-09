@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/api/user/checkup")
+@RestController
+@RequestMapping("/api/user/checkup")
 @RequiredArgsConstructor
 public class CheckupController {
     private final CheckupService checkupService;

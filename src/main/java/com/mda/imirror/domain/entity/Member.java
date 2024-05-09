@@ -37,11 +37,11 @@ public class Member {
     @Column(nullable = false, length = 10)
     private String role;
 
-    @OneToMany(mappedBy = "memberPk")
-    private List<Rom> memberPkRoms;
-
-    @OneToMany(mappedBy = "memberPk")
-    private List<Balance> memberPkBalances;
+//    @OneToMany
+//    private List<Rom> memberPkRoms;
+//
+//    @OneToMany
+//    private List<Balance> memberPkBalances;
 
 
     public void changeMemberInfo(String memberName, LocalDate memberBirthDate, Boolean memberGender) {
