@@ -14,6 +14,7 @@ import com.mda.imirror.exception.NotFoundUserException;
 import com.mda.imirror.repository.BalanceRepository;
 import com.mda.imirror.repository.MemberRepository;
 import com.mda.imirror.repository.RomRepository;
+import com.mda.imirror.service.AuthService;
 import com.mda.imirror.service.CheckupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,14 +31,23 @@ public class CheckupServiceImpl implements CheckupService {
     private final MemberRepository memberRepository;
     private final RomRepository romRepository;
     private final BalanceRepository balanceRepository;
+    private final AuthService authService;
 
     @Override
     public void registerCheckupResult(CheckupResultRequest request) {
         Rom rom = RomMapper.MAPPER.toEntity(request.getRom());
         Balance balance = BalanceMapper.MAPPER.toEntity(request.getBalance());
 
+        Member member= memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())
+                        .orElseGet(() -> Member.builder()
+                                .memberName(request.getMemberName())
+                                .memberBirthDate(request.getMemberBirthDate())
+                                .role("ROLE_USER")
+                                .personalInfoConsent(true)  //임시
+                                .memberGender(true)         //임시
+                                .build());
 
-
+        memberRepository.save(member);
         romRepository.save(rom);
         balanceRepository.save(balance);
     }

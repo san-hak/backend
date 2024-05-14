@@ -20,50 +20,53 @@ public class Balance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer balancePk;
 
-    @Column(length = 10)
-    private String headTwisted;
-
-    @Column(length = 10)
-    private String shoulderTwisted;
-
-    @Column(length = 10)
-    private String pelvisTwisted;
-
-    @Column(length = 10)
-    private String neckTwisted;
-
-    @Column(length = 10)
-    private String shoulderRolled;
-
+    // 머리 각도
     @Column
-    private Double leftShoulderAngle;
-
+    private Double headFrontalAngle;
     @Column
-    private Double rightShoulderAngle;
-
+    private Double headSagittalAngle;
     @Column
-    private Double leftHipAngle;
-
+    private String headFrontalComment;
     @Column
-    private Double rightHipAngle;
+    private String headSagittalComment;
 
-    @Column
-    private Double leftKneeAngle;
 
+    //어깨 각도
     @Column
-    private Double rightKneeAngle;
+    private Double shoulderLeftAngle;
+    @Column
+    private Double shoulderRightAngle;
+    @Column
+    private String shoulderComment;
 
+    //라운드 숄더
     @Column
-    private Double leftAnkleAngle;
+    private Double roundShoulderAngle;
+    @Column
+    private String roundShoulderComment;
 
-    @Column
-    private Double rightAnkleAngle;
 
+    //골반 각도
     @Column
-    private Double neckAngle;
+    private Double pelvisLeftAngle;
+    @Column
+    private Double pelvisRightAngle;
+    @Column
+    private String pelvisComment;
 
+
+    //무릎 각도
     @Column
-    private Double waistAngle;
+    private Double KneeLeftAngle;
+    @Column
+    private Double KneeRightAngle;
+
+
+    //발목 각도
+    @Column
+    private Double AnkleLeftAngle;
+    @Column
+    private Double AnkleRightAngle;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_pk", nullable = false)

@@ -1,6 +1,7 @@
 package com.mda.imirror.dto.checkup;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,49 +9,43 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BalanceDTO {
-    @Schema(description = "고개 틀어짐 여부")
-    private String headTwisted;
+    
+    
+    @Schema(description = "머리 이마면 각도 (음수 왼, 양수 오)")
+    private Double headFrontalAngle;
+    @Schema(description = "머리 시상면 각도 (음수 뒤, 양수 앞)")
+    private Double headSagittalAngle;
 
-    @Schema(description = "어깨 틀어짐 여부")
-    private String shoulderTwisted;
 
-    @Schema(description = "골반 틀어짐 여부")
-    private String pelvisTwisted;
+    //어깨 각도
+    @Schema(description = "어깨 왼쪽 각도")
+    private Double shoulderLeftAngle;
+    @Schema(description = "어깨 오른쪽 각도")
+    private Double shoulderRightAngle;
 
-    @Schema(description = "목 틀어짐 여부")
-    private String neckTwisted;
+    //라운드 숄더
+    @Schema(description = "라운드 숄더 각도")
+    private Double roundShoulderAngle;
 
-    @Schema(description = "어깨 말림 여부")
-    private String shoulderRolled;
 
-    @Schema(description = "왼쪽 어깨 틀어진 각도")
-    private Double leftShoulderAngle;
+    //골반 각도
+    @Schema(description = "골반 왼쪽 각도")
+    private Double pelvisLeftAngle;
+    @Schema(description = "골반 오른쪽 각도")
+    private Double pelvisRightAngle;
 
-    @Schema(description = "오른쪽 어깨 틀어진 각도")
-    private Double rightShoulderAngle;
 
-    @Schema(description = "왼쪽 엉덩이 틀어진 각도")
-    private Double leftHipAngle;
+    //무릎 각도
+    @Schema(description = "무릎 왼쪽 각도")
+    private Double KneeLeftAngle;
+    @Schema(description = "무릎 오른쪽 각도")
+    private Double KneeRightAngle;
 
-    @Schema(description = "오른쪽 엉덩이 틀어진 각도")
-    private Double rightHipAngle;
 
-    @Schema(description = "왼쪽 무릎 틀어진 각도")
-    private Double leftKneeAngle;
-
-    @Schema(description = "오른쪽 무릎 틀어진 각도")
-    private Double rightKneeAngle;
-
-    @Schema(description = "왼쪽 발목 틀어진 각도")
-    private Double leftAnkleAngle;
-
-    @Schema(description = "오른쪽 발목 틀어진 각도")
-    private Double rightAnkleAngle;
-
-    @Schema(description = "목 틀어진 각도")
-    private Double neckAngle;
-
-    @Schema(description = "허리 틀어진 각도")
-    private Double waistAngle;
+    //발목 각도
+    @Schema(description = "발목 왼쪽 각도")
+    private Double AnkleLeftAngle;
+    @Schema(description = "발목 오른쪽 각도")
+    private Double AnkleRightAngle;
 
 }
