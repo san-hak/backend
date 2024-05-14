@@ -21,70 +21,70 @@ public class Rom {
     private Integer romPk;
 
     @Column
-    private Double sagittalNeckUpperAngle;
+    private Double neckSagittalUp;
 
     @Column
-    private Double sagittalNeckLowerAngle;
+    private Double neckSagittalDown;
 
     @Column
-    private Double frontalNeckLeftAngle;
+    private Double neckFrontalLeft;
 
     @Column
-    private Double frontalNeckRightAngle;
+    private Double neckFrontalRight;
 
     @Column
-    private Double horizontalLeftArmUpperAngle;
+    private Double shoulderHorizontalLeftUp;
 
     @Column
-    private Double horizontalLeftArmLowerAngle;
+    private Double shoulderHorizontalLeftDown;
 
     @Column
-    private Double horizontalRightArmUpperAngle;
+    private Double shoulderHorizontalRightUp;
 
     @Column
-    private Double horizontalRightArmLowerAngle;
+    private Double shoulderHorizontalRightDown;
 
     @Column
-    private Double sagittalLeftArmFrontAngle;
+    private Double shoulderSagittalLeftUp;
 
     @Column
-    private Double sagittalLeftArmRearAngle;
+    private Double shoulderSagittalLeftDown;
 
     @Column
-    private Double sagittalRightArmFrontAngle;
+    private Double shoulderSagittalRightUp;
 
     @Column
-    private Double sagittalRightArmRearAngle;
+    private Double shoulderSagittalRightDown;
 
     @Column
-    private Double frontalLeftArmOuterAngle;
+    private Double shoulderFrontalLeftUp;
 
     @Column
-    private Double frontalLeftArmInnerAngle;
+    private Double shoulderFrontalLeftDown;
 
     @Column
-    private Double frontalRightArmOuterAngle;
+    private Double shoulderFrontalRightUp;
 
     @Column
-    private Double frontalRightArmInnerAngle;
+    private Double shoulderFrontalRightDown;
 
     @Column
-    private Double sagittalWaistRearAngle;
+    private Double waistSagittalUp;
 
     @Column
-    private Double sagittalWaistFrontAngle;
+    private Double waistSagittalDown;
 
     @Column
-    private Double frontalWaistLeftAngle;
+    private Double waistFrontalLeft;
 
     @Column
-    private Double frontalWaistRightAngle;
+    private Double waistFrontalRight;
 
     @Column
-    private Double leftKneeRearAngle;
+    private Double kneeSagittalLeft;
 
     @Column
-    private Double rightKneeRearAngle;
+    private Double kneeSagittalRight;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_pk", nullable = false)

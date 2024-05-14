@@ -22,7 +22,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String memberPk;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String memberName;
 
     @Column(nullable = false)
