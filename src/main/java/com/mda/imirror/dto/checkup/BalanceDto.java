@@ -1,14 +1,14 @@
 package com.mda.imirror.dto.checkup;
 
+import com.mda.imirror.domain.entity.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
 @Schema(description = "균형")
 @Getter
 @Setter
-public class BalanceDTO {
+public class BalanceDto {
     
     
     @Schema(description = "머리 이마면 각도 (음수 왼, 양수 오)")
@@ -47,5 +47,9 @@ public class BalanceDTO {
     private Double AnkleLeftAngle;
     @Schema(description = "발목 오른쪽 각도")
     private Double AnkleRightAngle;
+
+
+    @Schema(description = "프론트에서 보내지 말 것")
+    private Member member;
 
 }

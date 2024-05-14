@@ -1,14 +1,14 @@
 package com.mda.imirror.dto.checkup;
 
+import com.mda.imirror.domain.entity.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
 @Schema(description = "가동범위")
 @Getter
 @Setter
-public class RomDTO {
+public class RomDto {
 
     @Schema(description = "목 시상면 위로 올리는 최대 각도")
     private Double neckSagittalUp;
@@ -75,4 +75,8 @@ public class RomDTO {
 
     @Schema(description = "무릎 시상면 오른쪽 굽히는 최대 각도")
     private Double kneeSagittalRight;
+
+
+    @Schema(description = "프론트에서 보내지 말 것")
+    private Member member;
 }

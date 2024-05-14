@@ -3,8 +3,6 @@ package com.mda.imirror.service.impl;
 import com.mda.imirror.domain.entity.Balance;
 import com.mda.imirror.domain.entity.Member;
 import com.mda.imirror.domain.entity.Rom;
-import com.mda.imirror.dto.checkup.BalanceDTO;
-import com.mda.imirror.dto.checkup.RomDTO;
 import com.mda.imirror.dto.mapper.impl.BalanceMapper;
 import com.mda.imirror.dto.mapper.impl.RomMapper;
 import com.mda.imirror.dto.request.CheckupResultRequest;
@@ -21,8 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -35,17 +32,22 @@ public class CheckupServiceImpl implements CheckupService {
 
     @Override
     public void registerCheckupResult(CheckupResultRequest request) {
-        Rom rom = RomMapper.MAPPER.toEntity(request.getRom());
-        Balance balance = BalanceMapper.MAPPER.toEntity(request.getBalance());
 
         Member member= memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())
-                        .orElseGet(() -> Member.builder()
-                                .memberName(request.getMemberName())
-                                .memberBirthDate(request.getMemberBirthDate())
-                                .role("ROLE_USER")
-                                .personalInfoConsent(true)  //임시
-                                .memberGender(true)         //임시
-                                .build());
+                .orElseGet(() -> Member.builder()
+                        .memberPk(UUID.randomUUID().toString())
+                        .memberName(request.getMemberName())
+                        .memberBirthDate(request.getMemberBirthDate())
+                        .role("ROLE_USER")
+                        .personalInfoConsent(true)  //임시
+                        .memberGender(true)         //임시
+                        .build());
+
+        request.getRom().setMember(member);
+        request.getBalance().setMember(member);
+
+        Rom rom = RomMapper.MAPPER.toEntity(request.getRom());
+        Balance balance = BalanceMapper.MAPPER.toEntity(request.getBalance());
 
         memberRepository.save(member);
         romRepository.save(rom);
