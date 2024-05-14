@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -40,6 +41,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequest -> {
                     authorizeRequest
                             .requestMatchers("/api/auth/**").permitAll()
+                            .requestMatchers(HttpMethod.POST,"/api/user/checkup").permitAll()
                             .requestMatchers("/api/user/**").hasRole("USER")
                             .requestMatchers("/api/admin/**").hasRole("ADMIN")
                             .anyRequest().permitAll();
