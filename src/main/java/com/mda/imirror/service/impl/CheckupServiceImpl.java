@@ -10,6 +10,7 @@ import com.mda.imirror.dto.mapper.impl.RomMapper;
 import com.mda.imirror.dto.request.CheckupResultRequest;
 import com.mda.imirror.dto.request.MemberNameAndBirthRequest;
 import com.mda.imirror.dto.response.CheckupResultResponse;
+import com.mda.imirror.exception.NotFoundUserException;
 import com.mda.imirror.repository.BalanceRepository;
 import com.mda.imirror.repository.MemberRepository;
 import com.mda.imirror.repository.RomRepository;
@@ -44,7 +45,7 @@ public class CheckupServiceImpl implements CheckupService {
     @Override
     public List<CheckupResultResponse> getCheckupResult(MemberNameAndBirthRequest request) {
         Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getName(), request.birthToLocalDate(request.getBirth()))
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(NotFoundUserException::new);
 
         return getCheckupResultResponses(member);
     }

@@ -6,6 +6,7 @@ import com.mda.imirror.dto.request.MemberLoginRequest;
 import com.mda.imirror.dto.request.MemberRegisterRequest;
 import com.mda.imirror.dto.response.MemberLoginResponse;
 import com.mda.imirror.dto.response.MemberRegisterResponse;
+import com.mda.imirror.exception.NotFoundUserException;
 import com.mda.imirror.repository.MemberRepository;
 import com.mda.imirror.service.AuthService;
 import jakarta.servlet.http.HttpSession;
@@ -43,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public MemberLoginResponse login(MemberLoginRequest request) {
         Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+                .orElseThrow(NotFoundUserException::new);
 
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(request.getMemberName(), request.getMemberBirthDate());

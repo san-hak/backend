@@ -1,6 +1,7 @@
 package com.mda.imirror.config.auth;
 
 import com.mda.imirror.domain.entity.Member;
+import com.mda.imirror.exception.NotFoundUserException;
 import com.mda.imirror.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +14,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Member member = memberRepository.findByMemberName(username)
-                .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 회원입니다."));
+                .orElseThrow(NotFoundUserException::new);
         return new PrincipalDetails(member);
     }
 }
