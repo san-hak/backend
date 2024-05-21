@@ -29,7 +29,7 @@ public class AuthServiceImpl implements AuthService {
         Member member = Member.builder()
                 .memberName(request.getMemberName())
                 .memberBirthDate(request.getMemberBirthDate())
-                .isMale(request.getMemberGender())
+                .isMale(request.getIsMale())
                 .personalInfoConsent(request.getPersonalInfoConsent())
                 .role(MemberRole.USER.toString())
                 .build();

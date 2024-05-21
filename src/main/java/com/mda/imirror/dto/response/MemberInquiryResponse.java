@@ -6,6 +6,8 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Schema(description = "회원 조회 Response")
+@Getter
+@Setter
 @NoArgsConstructor
 public class MemberInquiryResponse {
     @Schema(description = "이름", example = "홍길동")

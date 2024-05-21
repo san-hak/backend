@@ -30,14 +30,14 @@ public class AdminController {
     @GetMapping("/{name}/{birth}")
     public ResponseEntity getMember(@Parameter(name = "name", description = "이름") @PathVariable String name,
                                     @Parameter(name = "birth", description = "생년월일") @PathVariable String birth) {
-        return ResponseEntity.ok(memberService.findMemberByNameWithBirth(name, birth));
+        return ResponseEntity.ok().body(memberService.findMemberByNameWithBirth(name, birth));
     }
 
     @Operation(summary = "회원 전체 조회")
     @ApiResponse(responseCode = "200", description = "조회 성공")
-    @GetMapping
-    public ResponseEntity getMembers(@RequestBody PageRequest request) {
-        return ResponseEntity.ok(memberService.InquiryMembers(request));
+    @GetMapping("")
+    public ResponseEntity getMembers() {
+        return ResponseEntity.ok().body(memberService.InquiryMembers());
     }
 
     @Operation(summary = "회원 정보 변경", description = "이름, 생년월일, 성별 변경 가능")
@@ -46,7 +46,7 @@ public class AdminController {
             @ApiResponse(responseCode = "405", description = "잘못된 메서드"),
             @ApiResponse(responseCode = "415", description = "잘못된 타입")
     })
-    @PutMapping
+    @PutMapping("")
     public void modifyMemberInfo(@RequestBody MemberChangeInfoRequest request) {
         memberService.changeMemberInfo(request);
     }

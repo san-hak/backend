@@ -39,12 +39,12 @@ public class CheckupController {
     })
     @GetMapping
     public ResponseEntity<List<CheckupResultResponse>> getCheckupResult(@AuthenticationPrincipal Member member) {
-        return ResponseEntity.ok(checkupService.getCheckupResult(member));
+        return ResponseEntity.ok().body(checkupService.getCheckupResult(member));
     }
 
     @GetMapping("/{name}/{birth}")
     public ResponseEntity<List<CheckupResultResponse>> getCheckupResult(@PathVariable String name, @PathVariable String birth) {
-        return ResponseEntity.ok(checkupService.getCheckupResult(MemberNameAndBirthRequest.builder().name(name).birth(birth).build()));
+        return ResponseEntity.ok().body(checkupService.getCheckupResult(MemberNameAndBirthRequest.builder().name(name).birth(birth).build()));
     }
 
 }
