@@ -40,7 +40,7 @@ public class CheckupServiceImpl implements CheckupService {
                         .memberBirthDate(request.getMemberBirthDate())
                         .role("ROLE_USER")
                         .personalInfoConsent(true)  //임시
-                        .memberGender(true)         //임시
+                        .isMale(true)
                         .build());
 
         request.getRom().setMember(member);

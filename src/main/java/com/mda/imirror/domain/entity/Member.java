@@ -26,7 +26,7 @@ public class Member {
     private String memberName;
 
     @Column(nullable = false)
-    private Boolean memberGender;
+    private Boolean isMale;
 
     @Column(nullable = false)
     private LocalDate memberBirthDate;
@@ -44,11 +44,11 @@ public class Member {
 //    private List<Balance> memberPkBalances;
 
 
-    public void changeMemberInfo(String memberName, LocalDate memberBirthDate, Boolean memberGender) {
+    public void changeMemberInfo(String memberName, LocalDate memberBirthDate, Boolean isMale) {
 
         this.memberName = memberName == null ? this.memberName : memberName;
         this.memberBirthDate = memberBirthDate == null ? this.memberBirthDate : memberBirthDate;
-        this.memberGender = memberGender == null ? this.memberGender : memberGender;
+        this.isMale = isMale == null ? this.isMale : isMale;
     }
 
 }

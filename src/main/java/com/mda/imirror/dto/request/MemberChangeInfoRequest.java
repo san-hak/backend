@@ -17,5 +17,5 @@ public class MemberChangeInfoRequest {
     @Schema(description = "생년월일", example = "1997-05-04")
     private LocalDate memberBirthDate;
     @Schema(description = "성별")
-    private Boolean memberGender;
+    private Boolean isMale;
 }

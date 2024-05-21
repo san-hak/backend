@@ -29,7 +29,7 @@ public class AuthServiceImpl implements AuthService {
         Member member = Member.builder()
                 .memberName(request.getMemberName())
                 .memberBirthDate(request.getMemberBirthDate())
-                .memberGender(request.getMemberGender())
+                .isMale(request.getMemberGender())
                 .personalInfoConsent(request.getPersonalInfoConsent())
                 .role(MemberRole.USER.toString())
                 .build();
@@ -53,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
 
         return MemberLoginResponse.builder()
                 .memberName(member.getMemberName())
-                .memberGender(member.getMemberGender())
+                .memberGender(member.getIsMale())
                 .memberBirthDate(member.getMemberBirthDate())
                 .role(member.getRole())
                 .build();
