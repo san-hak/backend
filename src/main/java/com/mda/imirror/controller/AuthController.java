@@ -29,7 +29,7 @@ public class AuthController {
     })
     @PostMapping("/register")
     public ResponseEntity<MemberRegisterResponse> register(@RequestBody MemberRegisterRequest request) {
-        return ResponseEntity.ok(authService.register(request));
+        return ResponseEntity.ok().body(authService.register(request));
     }
 
     @Operation(description = "로그인")
@@ -39,7 +39,7 @@ public class AuthController {
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<MemberLoginResponse> login(@RequestBody MemberLoginRequest request) {
-        return ResponseEntity.ok(authService.login(request));
+        return ResponseEntity.ok().body(authService.login(request));
 
     }
 
