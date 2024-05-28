@@ -59,10 +59,10 @@ public class SecurityConfig {
                 .formLogin(FormLoginConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequest -> {
                     authorizeRequest
-                            .requestMatchers("/api/auth/**").permitAll()
-                            .requestMatchers(HttpMethod.POST,"/api/user/checkup").permitAll()
-                            .requestMatchers("/api/user/**").hasRole("USER")
-                            .requestMatchers("/api/admin/**").hasRole("ADMIN")
+//                            .requestMatchers("/api/auth/**").permitAll()
+//                            .requestMatchers(HttpMethod.POST,"/api/user/checkup").permitAll()
+//                            .requestMatchers("/api/user/**").hasRole("USER")
+//                            .requestMatchers("/api/admin/**").hasRole("ADMIN")
                             .anyRequest().permitAll();
                 })
                 .sessionManagement(securitySessionManagementConfigurer -> securitySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
