@@ -36,6 +36,9 @@ public class AuthServiceImpl implements AuthService {
                 .role(MemberRole.USER.toString())
                 .build();
 
+        if (memberRepository.existsByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())) {
+            throw new RuntimeException("이미 존재하는 회원입니다.");
+        }
         memberRepository.save(member);
         return MemberRegisterResponse.builder()
                 .memberName(request.getMemberName())
@@ -49,9 +52,7 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(NotFoundUserException::new);
 
         HttpSession session = httpServletRequest.getSession(true);
-        session.setAttribute("memberName", member.getMemberName());
-        session.setAttribute("birthDate", member.getMemberBirthDate());
-
+        session.setAttribute("member", member);
 
 
         return MemberLoginResponse.builder()
@@ -59,7 +60,7 @@ public class AuthServiceImpl implements AuthService {
                 .memberGender(member.getIsMale())
                 .memberBirthDate(member.getMemberBirthDate())
                 .role(member.getRole())
-//                .sessionId(session.getId())
+                .sessionId(session.getId())
                 .build();
     }
 

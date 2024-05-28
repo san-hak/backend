@@ -13,5 +13,7 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, String> {
     Optional<Member> findByMemberNameAndMemberBirthDate(String memberName, LocalDate memberBirthDate);
     Optional<Member> findByMemberName(String memberName);
+
+    boolean existsByMemberNameAndMemberBirthDate(String memberName, LocalDate memberBirthDate);
     Slice<Member> findAllByOrderByMemberName(Pageable pageable);
 }
