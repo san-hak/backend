@@ -49,9 +49,7 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(NotFoundUserException::new);
 
         HttpSession session = httpServletRequest.getSession(true);
-        session.setAttribute("memberName", member.getMemberName());
-        session.setAttribute("birthDate", member.getMemberBirthDate());
-
+        session.setAttribute("member", member);
 
 
         return MemberLoginResponse.builder()
@@ -59,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
                 .memberGender(member.getIsMale())
                 .memberBirthDate(member.getMemberBirthDate())
                 .role(member.getRole())
-//                .sessionId(session.getId())
+                .sessionId(session.getId())
                 .build();
     }
 

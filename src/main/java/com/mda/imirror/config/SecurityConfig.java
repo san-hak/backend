@@ -65,6 +65,7 @@ public class SecurityConfig {
                 .sessionManagement(securitySessionManagementConfigurer -> securitySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .logout(LogoutConfigurer::disable)
                 .httpBasic(HttpBasicConfigurer::disable)
+                .addFilterBefore(new SessionAuthFilter(), UsernamePasswordAuthenticationFilter.class)
                 .cors(CorsConfigurer::disable) //프론트 배포 후 수정
         ;
 
