@@ -38,9 +38,19 @@ public class AuthController {
     })
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<MemberLoginResponse> login(@RequestBody MemberLoginRequest request) {
-        return ResponseEntity.ok(authService.login(request));
+    public ResponseEntity<MemberLoginResponse> login(@RequestBody MemberLoginRequest request, HttpServletRequest httpServletRequest) {
+        return ResponseEntity.ok(authService.login(request, httpServletRequest));
 
+    }
+
+    @Operation(description = "로그아웃")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "로그아웃 완료")
+    })
+    @PostMapping("/logout")
+    @ResponseStatus(HttpStatus.OK)
+    public void logout(HttpServletRequest request) {
+        authService.logout(request);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.mda.imirror.controller;
 
+import com.mda.imirror.config.auth.PrincipalDetails;
 import com.mda.imirror.domain.entity.Member;
 import com.mda.imirror.dto.request.CheckupResultRequest;
 import com.mda.imirror.dto.request.MemberNameAndBirthRequest;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,8 +40,9 @@ public class CheckupController {
             @ApiResponse(responseCode = "200", description = "조회 성공")
     })
     @GetMapping
-    public ResponseEntity<List<CheckupResultResponse>> getCheckupResult(@AuthenticationPrincipal Member member) {
-        return ResponseEntity.ok(checkupService.getCheckupResult(member));
+    public ResponseEntity<List<CheckupResultResponse>> getCheckupResult(@AuthenticationPrincipal PrincipalDetails userDetails) {
+        System.out.println(userDetails.getMember().toString());
+        return ResponseEntity.ok(checkupService.getCheckupResult(userDetails.getMember()));
     }
 
     @GetMapping("/{name}/{birth}")

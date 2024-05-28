@@ -17,9 +17,13 @@ import com.mda.imirror.service.CheckupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -32,22 +36,29 @@ public class CheckupServiceImpl implements CheckupService {
 
     @Override
     public void registerCheckupResult(CheckupResultRequest request) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        LocalDate date = LocalDate.parse(request.getMemberBirthDate(), formatter);
 
-        Member member= memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())
+
+
+        Member member= memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(),date)
                 .orElseGet(() -> Member.builder()
                         .memberPk(UUID.randomUUID().toString())
                         .memberName(request.getMemberName())
-                        .memberBirthDate(request.getMemberBirthDate())
+                        .memberBirthDate( LocalDate.parse(request.getMemberBirthDate()))
                         .role("ROLE_USER")
                         .personalInfoConsent(true)  //임시
                         .isMale(true)
                         .build());
 
-        request.getRom().setMember(member);
-        request.getBalance().setMember(member);
 
-        Rom rom = RomMapper.MAPPER.toEntity(request.getRom());
-        Balance balance = BalanceMapper.MAPPER.toEntity(request.getBalance());
+//        Rom rom = RomMapper.MAPPER.toEntity(request.getRom());
+//        Balance balance = BalanceMapper.MAPPER.toEntity(request.getBalance());
+
+        Rom rom = Rom.builder()
+                .build();
+
+        Balance balance = Balance.builder().build();
 
         memberRepository.save(member);
         romRepository.save(rom);

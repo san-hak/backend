@@ -64,7 +64,7 @@ public class MemberServiceImpl implements MemberService {
         member.changeMemberInfo(
                 request.getMemberName(),
                 request.getMemberBirthDate(),
-                request.getMemberGender());
+                request.getIsMale());
     }
 
     @Override
@@ -79,7 +79,7 @@ public class MemberServiceImpl implements MemberService {
         member.changeMemberInfo(
                 request.getMemberName(),
                 request.getMemberBirthDate(),
-                request.getMemberGender());
+                request.getIsMale());
     }
 
 }

@@ -1,5 +1,6 @@
 package com.mda.imirror.config;
 
+import com.mda.imirror.config.auth.SessionAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.*;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -24,7 +26,9 @@ public class SecurityConfig {
             "/swagger-resources/**",
             "/swagger-ui/index.html",
             "/swagger-ui/**",
-            "/v3/api-docs/**"
+            "/v3/api-docs/**",
+            "/api-docs/swagger-config",
+            "/api-docs"
     };
 
     @Bean
@@ -47,8 +51,10 @@ public class SecurityConfig {
                             .anyRequest().permitAll();
                 })
                 .sessionManagement(securitySessionManagementConfigurer -> securitySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .logout(LogoutConfigurer::disable)
                 .httpBasic(HttpBasicConfigurer::disable)
                 .cors(CorsConfigurer::disable) //프론트 배포 후 수정
+                .addFilterBefore(new SessionAuthFilter(), UsernamePasswordAuthenticationFilter.class)
         ;
 
         return http.build();
