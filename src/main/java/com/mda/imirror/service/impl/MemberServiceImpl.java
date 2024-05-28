@@ -11,8 +11,8 @@ import com.mda.imirror.repository.MemberRepository;
 import com.mda.imirror.service.MemberService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -50,10 +50,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Page<MemberInquiryResponse> InquiryMembers() {
+    public Slice<MemberInquiryResponse> InquiryMembers() {
         PageRequest pageRequest = new PageRequest();
         Pageable pageable =  pageRequest.getPageable(Sort.by("memberName"));
-        Page<Member> members = memberRepository.findAll(pageable);
+        Slice<Member> members = memberRepository.findAllByOrderByMemberName(pageable);
         return members.map(MemberMapper.MAPPER::toDto);
     }
 
