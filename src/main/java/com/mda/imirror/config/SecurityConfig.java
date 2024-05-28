@@ -1,9 +1,6 @@
 package com.mda.imirror.config;
-
 import com.mda.imirror.config.auth.SessionAuthFilter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
-import org.springframework.boot.web.servlet.ServletComponentScan;
+import jakarta.servlet.http.HttpServletRequest;;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,6 +13,9 @@ import org.springframework.security.config.annotation.web.configurers.*;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -40,6 +40,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(new CorsConfigurationSource() {
+                    @Override
+                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                    config.setAllowedMethods(Collections.singletonList("*"));
+                    config.setAllowCredentials(true);
+                    config.setAllowedHeaders(Collections.singletonList("*"));
+                    config.setMaxAge(3600L);
+                    return config;
+                }
+                }))
                 .csrf(CsrfConfigurer::disable)
                 .formLogin(FormLoginConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequest -> {
@@ -54,7 +66,6 @@ public class SecurityConfig {
                 .logout(LogoutConfigurer::disable)
                 .httpBasic(HttpBasicConfigurer::disable)
                 .cors(CorsConfigurer::disable) //프론트 배포 후 수정
-                .addFilterBefore(new SessionAuthFilter(), UsernamePasswordAuthenticationFilter.class)
         ;
 
         return http.build();

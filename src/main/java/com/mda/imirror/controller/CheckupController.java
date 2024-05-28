@@ -47,7 +47,7 @@ public class CheckupController {
 
     @GetMapping("/{name}/{birth}")
     public ResponseEntity<List<CheckupResultResponse>> getCheckupResult(@PathVariable String name, @PathVariable String birth) {
-        return ResponseEntity.ok(checkupService.getCheckupResult(MemberNameAndBirthRequest.builder().name(name).birth(birth).build()));
+        return ResponseEntity.ok().body(checkupService.getCheckupResult(MemberNameAndBirthRequest.builder().name(name).birth(birth).build()));
     }
 
 }

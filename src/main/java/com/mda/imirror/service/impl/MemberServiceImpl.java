@@ -50,8 +50,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Page<MemberInquiryResponse> InquiryMembers(PageRequest request) {
-        Pageable pageable = request.getPageable(Sort.by("memberName"));
+    public Page<MemberInquiryResponse> InquiryMembers() {
+        PageRequest pageRequest = new PageRequest();
+        Pageable pageable =  pageRequest.getPageable(Sort.by("memberName"));
         Page<Member> members = memberRepository.findAll(pageable);
         return members.map(MemberMapper.MAPPER::toDto);
     }
