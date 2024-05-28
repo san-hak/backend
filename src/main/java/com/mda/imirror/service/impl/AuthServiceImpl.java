@@ -36,6 +36,9 @@ public class AuthServiceImpl implements AuthService {
                 .role(MemberRole.USER.toString())
                 .build();
 
+        if (memberRepository.existsByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())) {
+            throw new RuntimeException("이미 존재하는 회원입니다.");
+        }
         memberRepository.save(member);
         return MemberRegisterResponse.builder()
                 .memberName(request.getMemberName())
