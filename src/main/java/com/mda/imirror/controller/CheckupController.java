@@ -40,9 +40,8 @@ public class CheckupController {
             @ApiResponse(responseCode = "200", description = "조회 성공")
     })
     @GetMapping
-    public ResponseEntity<List<CheckupResultResponse>> getCheckupResult(@AuthenticationPrincipal PrincipalDetails userDetails) {
-        System.out.println(userDetails.getMember().toString());
-        return ResponseEntity.ok(checkupService.getCheckupResult(userDetails.getMember()));
+    public ResponseEntity<List<CheckupResultResponse>> getCheckupResult(@AuthenticationPrincipal Member member) {
+        return ResponseEntity.ok(checkupService.getCheckupResult(member));
     }
 
     @GetMapping("/{name}/{birth}")

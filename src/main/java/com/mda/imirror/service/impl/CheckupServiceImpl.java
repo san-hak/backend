@@ -83,7 +83,9 @@ public class CheckupServiceImpl implements CheckupService {
         List<Balance> balances = balanceRepository.findTop10ByMemberOrderByBalancePkDesc(member);
 
         List<CheckupResultResponse> response = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        int responseSize = Math.min(roms.size(), Math.min(balances.size(), 10));
+
+        for (int i = 0; i < responseSize; i++) {
             response.add(new CheckupResultResponse(
                     RomMapper.MAPPER.toDto(roms.get(i)),
                     BalanceMapper.MAPPER.toDto(balances.get(i))

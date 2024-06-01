@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
@@ -17,6 +18,9 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "member")
 public class Member implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -8816508202720576265L;
 
     @Id
     @Column(nullable = false, updatable = false, length = 36)
@@ -50,6 +54,23 @@ public class Member implements Serializable {
         this.memberName = memberName == null ? this.memberName : memberName;
         this.memberBirthDate = memberBirthDate == null ? this.memberBirthDate : memberBirthDate;
         this.isMale = isMale == null ? this.isMale : isMale;
+    }
+
+    @Override
+    public int hashCode() {
+        return memberPk.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "memberPk='" + memberPk + '\'' +
+                ", memberName='" + memberName + '\'' +
+                ", isMale=" + isMale + '\'' +
+                ", memberBirthDate=" + memberBirthDate + '\'' +
+                ", personalInfoConsent=" + personalInfoConsent + '\'' +
+                ", role='" + role + '\'' +
+                '}';
     }
 
 }

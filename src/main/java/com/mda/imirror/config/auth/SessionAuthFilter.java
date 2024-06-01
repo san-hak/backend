@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.constraints.Null;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,12 +25,18 @@ public class SessionAuthFilter extends OncePerRequestFilter{
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        Member user = (Member) request.getSession().getAttribute("member");
-        if(!isNull(user)) {
-            Authentication authentication = new UsernamePasswordAuthenticationToken(user, null);
+        if (request.getRequestURI().contains("/api/auth") || (request.getRequestURI().contains("/api/user/checkup") && request.getMethod().equals("POST"))){
+            filterChain.doFilter(request, response);
+            return;
+        }
+        Member user = (Member) request.getSession(false).getAttribute("member");
+
+
+        if (!isNull(user)) {
+//            System.out.println(user.toString());
+            Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, Collections.singleton(new SimpleGrantedAuthority(user.getRole())));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        filterChain.doFilter(request,response);
-    }
+        filterChain.doFilter(request,response);}
 
 }
