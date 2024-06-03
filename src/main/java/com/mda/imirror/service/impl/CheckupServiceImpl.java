@@ -58,7 +58,16 @@ public class CheckupServiceImpl implements CheckupService {
         Rom rom = Rom.builder()
                 .build();
 
-        Balance balance = Balance.builder().build();
+        Balance balance = Balance.builder()
+                .build();
+        member.changeMemberInfo(
+                null,
+                null,
+                null,
+                null,
+                LocalDate.now()
+
+        );
 
         memberRepository.save(member);
         romRepository.save(rom);

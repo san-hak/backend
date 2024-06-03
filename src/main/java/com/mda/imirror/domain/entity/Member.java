@@ -42,6 +42,9 @@ public class Member implements Serializable {
     @Column(nullable = false, length = 10)
     private String role;
 
+    @Column(nullable = false)
+    private LocalDate recentCheckupDate;
+
 //    @OneToMany
 //    private List<Rom> memberPkRoms;
 //
@@ -49,11 +52,13 @@ public class Member implements Serializable {
 //    private List<Balance> memberPkBalances;
 
 
-    public void changeMemberInfo(String memberName, LocalDate memberBirthDate, Boolean isMale) {
+    public void changeMemberInfo(String memberName, LocalDate memberBirthDate, Boolean isMale, Boolean personalInfoConsent, LocalDate recentCheckupDate) {
 
         this.memberName = memberName == null ? this.memberName : memberName;
         this.memberBirthDate = memberBirthDate == null ? this.memberBirthDate : memberBirthDate;
         this.isMale = isMale == null ? this.isMale : isMale;
+        this.personalInfoConsent = personalInfoConsent == null ? this.personalInfoConsent : personalInfoConsent;
+        this.recentCheckupDate = recentCheckupDate == null ? this.recentCheckupDate : recentCheckupDate;
     }
 
     @Override
@@ -70,6 +75,7 @@ public class Member implements Serializable {
                 ", memberBirthDate=" + memberBirthDate + '\'' +
                 ", personalInfoConsent=" + personalInfoConsent + '\'' +
                 ", role='" + role + '\'' +
+                ", recentCheckupDate=" + recentCheckupDate + '\n' +
                 '}';
     }
 

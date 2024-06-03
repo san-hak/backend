@@ -11,9 +11,7 @@ import com.mda.imirror.repository.MemberRepository;
 import com.mda.imirror.service.MemberService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -24,22 +22,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
 
-    // 더 이상 ID와 비밀번호를 쓰기 않음
-//    @Override
-//    public void changePassword(String originPassword, String changePassword, String memberId) {
-//        Optional<Member> OptionalMember = memberRepository.findByMemberId(memberId);
-//        if(OptionalMember.isPresent()) {
-//            Member member = OptionalMember.get();
-//            if(passwordEncoder.matches(originPassword, member.getMemberPassword())) {
-//                member.changePassword(passwordEncoder.encode(changePassword));
-//            } else {
-//                throw new RuntimeException("WRONG PASSWORD");
-//            }
-//
-//        } else {
-//            throw new NotFoundUserException;
-//        }
-//    }
+
 
 
     @Override
@@ -65,7 +48,10 @@ public class MemberServiceImpl implements MemberService {
         member.changeMemberInfo(
                 request.getMemberName(),
                 request.getMemberBirthDate(),
-                request.getIsMale());
+                request.getIsMale(),
+                request.getPersonalInfoConsent(),
+                null
+        );
     }
 
     @Override
@@ -80,7 +66,10 @@ public class MemberServiceImpl implements MemberService {
         member.changeMemberInfo(
                 request.getMemberName(),
                 request.getMemberBirthDate(),
-                request.getIsMale());
+                request.getIsMale(),
+                request.getPersonalInfoConsent(),
+                null
+        );
     }
 
 }
