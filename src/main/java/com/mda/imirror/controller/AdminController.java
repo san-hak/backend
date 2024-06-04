@@ -46,8 +46,11 @@ public class AdminController {
             @ApiResponse(responseCode = "405", description = "잘못된 메서드"),
             @ApiResponse(responseCode = "415", description = "잘못된 타입")
     })
-    @PutMapping("")
-    public void modifyMemberInfo(@RequestBody MemberChangeInfoRequest request) {
-        memberService.changeMemberInfo(request);
+    @PutMapping("/{name}/{birth}")
+    public void modifyMemberInfo(
+            @RequestBody MemberChangeInfoRequest request,
+            @Parameter(name = "name", description = "이름") @PathVariable String name,
+            @Parameter(name = "birth", description = "생년월일") @PathVariable String birth) {
+        memberService.changeMemberInfo(request, name, birth);
     }
 }

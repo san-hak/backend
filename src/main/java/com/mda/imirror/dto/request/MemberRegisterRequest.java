@@ -22,7 +22,7 @@ public class MemberRegisterRequest {
     @Schema(description = "생년월일", example = "1997-05-04")
     @NotBlank
     @Length(max = 8)
-    private LocalDate memberBirthDate;
+    private String memberBirthDate;
     @Schema(description = "개인정보사용동의서 동의 여부")
     @NotBlank
     private Boolean personalInfoConsent;
