@@ -12,6 +12,4 @@ public class DuplicateMemberException extends CustomException{
         super(HttpStatus.CONFLICT, "중복 회원입니다");
     }
 
-    public static final CustomException EXCEPTION = new UnAuthorizedException();
-
 }

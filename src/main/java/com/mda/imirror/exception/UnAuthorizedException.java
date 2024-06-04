@@ -10,6 +10,4 @@ public class UnAuthorizedException extends CustomException {
 
     public UnAuthorizedException() {
         super(HttpStatus.UNAUTHORIZED, "로그인 되지 않았습니다. 로그인을 해주십시오");
-    }
-    public static final CustomException EXCEPTION = new UnAuthorizedException();
-}
+    }}

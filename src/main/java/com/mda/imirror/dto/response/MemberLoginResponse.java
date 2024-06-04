@@ -24,6 +24,4 @@ public class MemberLoginResponse {
     @Schema(description = "역할")
     private String role;
 
-    @Schema(description = "세션 ID")
-    private String sessionId;
 }
