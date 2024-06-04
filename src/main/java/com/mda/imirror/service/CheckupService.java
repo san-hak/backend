@@ -46,10 +46,6 @@ public class CheckupService {
                         .isMale(true)
                         .build());
 
-
-//        Rom rom = RomMapper.MAPPER.toEntity(request.getRom());
-//        Balance balance = BalanceMapper.MAPPER.toEntity(request.getBalance());
-
         Rom rom = Rom.builder()
                 .build();
 

@@ -1,7 +1,6 @@
 package com.mda.imirror.controller;
 
 import com.mda.imirror.dto.request.MemberChangeInfoRequest;
-import com.mda.imirror.dto.request.PageRequest;
 import com.mda.imirror.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

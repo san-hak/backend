@@ -10,9 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface RomRepository extends JpaRepository<Rom, Integer> {
-    Optional<Rom> findByMember(Member member);
-
     List<Rom> findTop10ByMemberOrderByRomPkDesc(Member member);
-
 
 }
