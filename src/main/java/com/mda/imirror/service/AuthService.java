@@ -53,7 +53,7 @@ public class AuthService {
 
         Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), LocalDate.parse(request.getMemberBirthDate(), DateTimeFormatter.ISO_DATE))
                 .orElseThrow(MemberNotFoundException::new);
-        if (session.getAttribute("member")!=member) {
+        if (session.getAttribute("member")!=member && session.getAttribute("member")!=null) {
             session.invalidate();
             throw new SessionConflictException();
         }
