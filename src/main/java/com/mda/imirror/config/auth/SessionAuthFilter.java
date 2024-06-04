@@ -24,19 +24,23 @@ import static java.util.Objects.isNull;
 public class SessionAuthFilter extends OncePerRequestFilter{
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getRequestURI().contains("/api/auth") || (request.getRequestURI().contains("/api/user/checkup") && request.getMethod().equals("POST"))){
-            filterChain.doFilter(request, response);
-            return;
-        }
-        Member user = (Member) request.getSession(false).getAttribute("member");
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
+        try {
+            if (request.getRequestURI().contains("/api/auth") || (request.getRequestURI().contains("/api/user/checkup") && request.getMethod().equals("POST"))) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+            Member user = (Member) request.getSession(false).getAttribute("member");
 
-
-        if (!isNull(user)) {
+            if (!isNull(user)) {
 //            System.out.println(user.toString());
-            Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, Collections.singleton(new SimpleGrantedAuthority(user.getRole())));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, Collections.singleton(new SimpleGrantedAuthority(user.getRole())));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            throw new UnAuthorizedException();
         }
-        filterChain.doFilter(request,response);}
+    }
 
 }
