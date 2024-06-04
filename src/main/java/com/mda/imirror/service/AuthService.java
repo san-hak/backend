@@ -34,9 +34,6 @@ public class AuthService {
                 .role(MemberRole.USER.toString())
                 .build();
 
-//        if (memberRepository.existsByMemberNameAndMemberBirthDate(request.getMemberName(), LocalDate.parse(request.getMemberBirthDate(),DateTimeFormatter.ISO_DATE))) {
-//            throw new DuplicateMemberException();
-//        }
         if (memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), LocalDate.parse(request.getMemberBirthDate(), DateTimeFormatter.ISO_DATE)).isPresent()) {
             throw new DuplicateMemberException();
         }

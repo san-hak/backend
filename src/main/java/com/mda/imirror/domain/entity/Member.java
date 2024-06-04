@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Getter
@@ -44,13 +43,6 @@ public class Member implements Serializable {
 
     @Column(nullable = false)
     private LocalDate recentCheckupDate;
-
-//    @OneToMany
-//    private List<Rom> memberPkRoms;
-//
-//    @OneToMany
-//    private List<Balance> memberPkBalances;
-
 
     public void changeMemberInfo(String memberName, LocalDate memberBirthDate, Boolean isMale, Boolean personalInfoConsent, LocalDate recentCheckupDate) {
 

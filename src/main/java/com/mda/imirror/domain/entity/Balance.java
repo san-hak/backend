@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Getter
 @Builder
@@ -30,7 +29,6 @@ public class Balance {
     @Column
     private String headSagittalComment;
 
-
     //어깨 각도
     @Column
     private Double shoulderLeftAngle;
@@ -45,7 +43,6 @@ public class Balance {
     @Column
     private String roundShoulderComment;
 
-
     //골반 각도
     @Column
     private Double pelvisLeftAngle;
@@ -54,13 +51,11 @@ public class Balance {
     @Column
     private String pelvisComment;
 
-
     //무릎 각도
     @Column
     private Double KneeLeftAngle;
     @Column
     private Double KneeRightAngle;
-
 
     //발목 각도
     @Column
