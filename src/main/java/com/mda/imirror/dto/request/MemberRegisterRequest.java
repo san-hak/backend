@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import java.time.LocalDate;
-
 @Schema(description = "회원가입 request")
 @Getter
 @Setter

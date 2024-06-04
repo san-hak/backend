@@ -1,12 +1,9 @@
 package com.mda.imirror.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-
-import java.time.LocalDate;
 
 @Schema(description = "회원 정보 변경 request")
 @Getter

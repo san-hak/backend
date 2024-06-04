@@ -14,6 +14,7 @@ import lombok.Setter;
 public class CheckupResultResponse {
     @Schema(description = "가동범위")
     private RomDto rom;
+
     @Schema(description = "균형")
     private BalanceDto balance;
 }
