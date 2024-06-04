@@ -14,6 +14,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +45,7 @@ public class MemberService {
                 .orElseThrow(MemberNotFoundException::new);
         member.changeMemberInfo(
                 request.getMemberName(),
-                request.getMemberBirthDate(),
+                LocalDate.parse(request.getMemberBirthDate(), DateTimeFormatter.ISO_DATE),
                 request.getIsMale(),
                 request.getPersonalInfoConsent(),
                 null
@@ -53,7 +54,7 @@ public class MemberService {
 
     @Transactional
     public void changeMemberInfo(MemberChangeInfoRequest request, Member requester) {  //for user
-        Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())
+        Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), LocalDate.parse(request.getMemberBirthDate(), DateTimeFormatter.ISO_DATE))
                 .orElseThrow(MemberNotFoundException::new);
         if (!member.getMemberName().equals(requester.getMemberName())) {
             throw new UnAuthorizedException();
@@ -61,7 +62,7 @@ public class MemberService {
 
         member.changeMemberInfo(
                 request.getMemberName(),
-                request.getMemberBirthDate(),
+                LocalDate.parse(request.getMemberBirthDate(),DateTimeFormatter.ISO_DATE),
                 request.getIsMale(),
                 request.getPersonalInfoConsent(),
                 null

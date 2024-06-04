@@ -8,12 +8,16 @@ import com.mda.imirror.dto.response.MemberLoginResponse;
 import com.mda.imirror.dto.response.MemberRegisterResponse;
 import com.mda.imirror.exception.DuplicateMemberException;
 import com.mda.imirror.exception.MemberNotFoundException;
+import com.mda.imirror.exception.SessionConflictException;
 import com.mda.imirror.exception.UnAuthorizedException;
 import com.mda.imirror.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -24,27 +28,36 @@ public class AuthService {
 
         Member member = Member.builder()
                 .memberName(request.getMemberName())
-                .memberBirthDate(request.getMemberBirthDate())
+                .memberBirthDate(LocalDate.parse(request.getMemberBirthDate(), DateTimeFormatter.ISO_DATE))
                 .isMale(request.getIsMale())
                 .personalInfoConsent(request.getPersonalInfoConsent())
                 .role(MemberRole.USER.toString())
                 .build();
 
-        if (memberRepository.existsByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())) {
+//        if (memberRepository.existsByMemberNameAndMemberBirthDate(request.getMemberName(), LocalDate.parse(request.getMemberBirthDate(),DateTimeFormatter.ISO_DATE))) {
+//            throw new DuplicateMemberException();
+//        }
+        if (memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), LocalDate.parse(request.getMemberBirthDate(), DateTimeFormatter.ISO_DATE)).isPresent()) {
             throw new DuplicateMemberException();
         }
         memberRepository.save(member);
         return MemberRegisterResponse.builder()
                 .memberName(request.getMemberName())
-                .memberBirthDate(request.getMemberBirthDate())
+                .memberBirthDate(LocalDate.parse(request.getMemberBirthDate(), DateTimeFormatter.ISO_DATE))
                 .build();
     }
 
     public MemberLoginResponse login(MemberLoginRequest request, HttpServletRequest httpServletRequest) {
-        Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())
-                .orElseThrow(MemberNotFoundException::new);
 
         HttpSession session = httpServletRequest.getSession(true);
+
+        Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), LocalDate.parse(request.getMemberBirthDate(), DateTimeFormatter.ISO_DATE))
+                .orElseThrow(MemberNotFoundException::new);
+        if (session.getAttribute("member")!=member) {
+            session.invalidate();
+            throw new SessionConflictException();
+        }
+
         session.setAttribute("member", member);
 
 
