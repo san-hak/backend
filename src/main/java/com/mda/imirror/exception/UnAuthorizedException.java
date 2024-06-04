@@ -9,7 +9,7 @@ public class UnAuthorizedException extends CustomException {
     private static final long serialVersionUID = -6510401919582402295L;
 
     public UnAuthorizedException() {
-        super(HttpStatus.UNAUTHORIZED, "로그인되지 않음");
+        super(HttpStatus.UNAUTHORIZED, "로그인 되지 않았습니다. 로그인을 해주십시오");
     }
     public static final CustomException EXCEPTION = new UnAuthorizedException();
 }

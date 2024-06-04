@@ -8,7 +8,7 @@ import com.mda.imirror.dto.mapper.impl.RomMapper;
 import com.mda.imirror.dto.request.CheckupResultRequest;
 import com.mda.imirror.dto.request.MemberNameAndBirthRequest;
 import com.mda.imirror.dto.response.CheckupResultResponse;
-import com.mda.imirror.exception.NotFoundUserException;
+import com.mda.imirror.exception.MemberNotFoundException;
 import com.mda.imirror.repository.BalanceRepository;
 import com.mda.imirror.repository.MemberRepository;
 import com.mda.imirror.repository.RomRepository;
@@ -22,8 +22,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -77,7 +75,7 @@ public class CheckupServiceImpl implements CheckupService {
     @Override
     public List<CheckupResultResponse> getCheckupResult(MemberNameAndBirthRequest request) {
         Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getName(), request.birthToLocalDate(request.getBirth()))
-                .orElseThrow(NotFoundUserException::new);
+                .orElseThrow(MemberNotFoundException::new);
 
         return getCheckupResultResponses(member);
     }

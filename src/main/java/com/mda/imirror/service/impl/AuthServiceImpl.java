@@ -6,19 +6,15 @@ import com.mda.imirror.dto.request.MemberLoginRequest;
 import com.mda.imirror.dto.request.MemberRegisterRequest;
 import com.mda.imirror.dto.response.MemberLoginResponse;
 import com.mda.imirror.dto.response.MemberRegisterResponse;
-import com.mda.imirror.exception.NotFoundUserException;
+import com.mda.imirror.exception.DuplicateMemberException;
+import com.mda.imirror.exception.MemberNotFoundException;
 import com.mda.imirror.exception.UnAuthorizedException;
 import com.mda.imirror.repository.MemberRepository;
 import com.mda.imirror.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         if (memberRepository.existsByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())) {
-            throw new RuntimeException("이미 존재하는 회원입니다.");
+            throw new DuplicateMemberException();
         }
         memberRepository.save(member);
         return MemberRegisterResponse.builder()
@@ -49,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public MemberLoginResponse login(MemberLoginRequest request, HttpServletRequest httpServletRequest) {
         Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())
-                .orElseThrow(NotFoundUserException::new);
+                .orElseThrow(MemberNotFoundException::new);
 
         HttpSession session = httpServletRequest.getSession(true);
         session.setAttribute("member", member);
@@ -60,7 +56,6 @@ public class AuthServiceImpl implements AuthService {
                 .memberGender(member.getIsMale())
                 .memberBirthDate(member.getMemberBirthDate())
                 .role(member.getRole())
-                .sessionId(session.getId())
                 .build();
     }
 

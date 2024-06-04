@@ -62,10 +62,11 @@ public class SecurityConfig {
 //                            .requestMatchers("/api/admin/**").hasRole("ADMIN")
                             .anyRequest().permitAll();
                 })
-                .sessionManagement(securitySessionManagementConfigurer -> securitySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .sessionManagement(securitySessionManagementConfigurer -> securitySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .logout(LogoutConfigurer::disable)
                 .httpBasic(HttpBasicConfigurer::disable)
-                .addFilterBefore(new SessionAuthFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new SessionAuthFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new ExceptionHandlerFilter(), SessionAuthFilter.class);
 
         return http.build();
     }
