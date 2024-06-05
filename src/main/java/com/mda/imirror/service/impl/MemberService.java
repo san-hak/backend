@@ -8,7 +8,6 @@ import com.mda.imirror.dto.response.MemberInquiryResponse;
 import com.mda.imirror.exception.MemberNotFoundException;
 import com.mda.imirror.exception.UnAuthorizedException;
 import com.mda.imirror.repository.MemberRepository;
-import com.mda.imirror.service.MemberService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -18,21 +17,20 @@ import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
-public class MemberServiceImpl implements MemberService {
+public class MemberService  {
 
     private final MemberRepository memberRepository;
 
 
 
 
-    @Override
     public MemberInquiryResponse findMemberByNameWithBirth(String name, String birth) {
         LocalDate localDate = LocalDate.parse(birth);
         return memberRepository.findByMemberNameAndMemberBirthDate(name, localDate).map(MemberMapper.MAPPER::toDto)
                 .orElseThrow(MemberNotFoundException::new);
     }
 
-    @Override
+
     public Slice<MemberInquiryResponse> InquiryMembers() {
         PageRequest pageRequest = new PageRequest();
         Pageable pageable =  pageRequest.getPageable(Sort.by("memberName"));
@@ -40,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
         return members.map(MemberMapper.MAPPER::toDto);
     }
 
-    @Override
+
     @Transactional
     public void changeMemberInfo(MemberChangeInfoRequest request) {  //for admin
         Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())
@@ -54,7 +52,7 @@ public class MemberServiceImpl implements MemberService {
         );
     }
 
-    @Override
+
     @Transactional
     public void changeMemberInfo(MemberChangeInfoRequest request, Member requester) {  //for user
         Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())

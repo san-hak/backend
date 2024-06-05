@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class AuthController {
             @ApiResponse(responseCode = "201", description = "회원가입 완료")
     })
     @PostMapping("/register")
-    public ResponseEntity<MemberRegisterResponse> register(@RequestBody MemberRegisterRequest request) {
+    public ResponseEntity<MemberRegisterResponse> register(@RequestBody @Valid MemberRegisterRequest request) {
         return ResponseEntity.ok().body(authService.register(request));
     }
 
@@ -38,7 +39,7 @@ public class AuthController {
     })
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<MemberLoginResponse> login(@RequestBody MemberLoginRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<MemberLoginResponse> login(@RequestBody @Valid MemberLoginRequest request, HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(authService.login(request, httpServletRequest));
 
     }

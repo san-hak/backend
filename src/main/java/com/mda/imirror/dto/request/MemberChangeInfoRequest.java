@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Setter
 public class MemberChangeInfoRequest {
     @Schema(description = "이름", example = "홍길동")
-    @Length(max = 100)
+    @Length(max = 100, message = "이름은 100자 이하로 입력해주세요.")
     private String memberName;
 
     @Schema(description = "생년월일", example = "1997-05-04")

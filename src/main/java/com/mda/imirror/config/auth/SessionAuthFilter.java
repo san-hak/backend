@@ -6,8 +6,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.constraints.Null;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,16 +17,27 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Objects;
 
 import static java.util.Objects.isNull;
 
-
+@RequiredArgsConstructor
 public class SessionAuthFilter extends OncePerRequestFilter{
+
+    private final AuthKey authKey;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
+//        System.out.println(Objects.equals(request.getHeader("Authorization"),token));
+//        System.out.println(request.getHeader("Authorization"));
+//        System.out.println(authKey.token);
+
+
+
         try {
-            if (request.getRequestURI().contains("/api/auth") || (request.getRequestURI().contains("/api/user/checkup") && request.getMethod().equals("POST"))) {
+            if (request.getRequestURI().contains("/api/auth") || request.getHeader("Authorization").equals(authKey.token)) {
+//                System.out.println(authKey.token);
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -38,7 +49,8 @@ public class SessionAuthFilter extends OncePerRequestFilter{
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
             filterChain.doFilter(request, response);
-        } catch (Exception e) {
+        } catch (NullPointerException | IOException | ServletException e) {
+            System.out.println(e.getMessage());
             throw new UnAuthorizedException();
         }
     }

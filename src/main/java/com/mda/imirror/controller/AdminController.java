@@ -1,8 +1,7 @@
 package com.mda.imirror.controller;
 
 import com.mda.imirror.dto.request.MemberChangeInfoRequest;
-import com.mda.imirror.dto.request.PageRequest;
-import com.mda.imirror.service.MemberService;
+import com.mda.imirror.service.impl.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,8 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
 
 @Tag(name = "Admin", description = "관리자")
 @RestController
