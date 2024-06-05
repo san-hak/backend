@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Schema(description = "회원 결과 등록 request")
 @Getter
 @Setter

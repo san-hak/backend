@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import java.time.LocalDate;
-
 @Schema(description = "회원가입 request")
 @Getter
 @Setter
@@ -25,7 +23,6 @@ public class MemberRegisterRequest {
     @Schema(description = "생년월일", example = "1997-05-04")
     @NotBlank(message = "생년월일을 입력해주세요.")
     private String memberBirthDate;
-
 
     @Schema(description = "개인정보사용동의서 동의 여부")
     @NotNull(message = "개인정보사용동의서 동의 여부를 입력해주세요.")

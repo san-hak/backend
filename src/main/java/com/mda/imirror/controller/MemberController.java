@@ -4,8 +4,9 @@ import com.mda.imirror.domain.entity.Member;
 import com.mda.imirror.dto.mapper.impl.MemberMapper;
 import com.mda.imirror.dto.request.MemberChangeInfoRequest;
 import com.mda.imirror.dto.response.MemberInquiryResponse;
-import com.mda.imirror.service.impl.MemberService;
 import jakarta.validation.Valid;
+
+import com.mda.imirror.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

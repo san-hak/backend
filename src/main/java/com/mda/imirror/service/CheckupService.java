@@ -1,10 +1,10 @@
 package com.mda.imirror.service;
 import com.mda.imirror.domain.entity.Member;
 import com.mda.imirror.domain.entity.Checkup;
-import com.mda.imirror.domain.entity.Member;
 import com.mda.imirror.domain.enums.MemberRole;
 import com.mda.imirror.dto.mapper.impl.CheckupMapper;
 import com.mda.imirror.dto.mapper.impl.CheckupRequestMapper;
+
 import com.mda.imirror.dto.request.CheckupResultRequest;
 import com.mda.imirror.dto.response.CheckupResultResponse;
 import com.mda.imirror.exception.MemberNotFoundException;
@@ -18,8 +18,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-
 @Service
 @RequiredArgsConstructor
 public class CheckupService {
@@ -64,9 +62,9 @@ public class CheckupService {
     public List<CheckupResultResponse> getCheckupResult(String name, String birth) {
         Member member = memberRepository.findByMemberNameAndMemberBirthDate(name, LocalDate.parse(birth, DateTimeFormatter.ISO_DATE))
                 .orElseThrow(MemberNotFoundException::new);
-
         return getCheckupResultResponses(member);
     }
+
 
     public List<CheckupResultResponse> getCheckupResult(Member member) {
         return getCheckupResultResponses(member);

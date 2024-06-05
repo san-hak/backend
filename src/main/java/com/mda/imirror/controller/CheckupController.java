@@ -1,6 +1,5 @@
 package com.mda.imirror.controller;
 
-import com.mda.imirror.config.auth.PrincipalDetails;
 import com.mda.imirror.domain.entity.Member;
 import com.mda.imirror.dto.request.CheckupResultRequest;
 import com.mda.imirror.dto.response.CheckupResultResponse;
@@ -13,7 +12,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,11 +40,6 @@ public class CheckupController {
     @GetMapping
     public ResponseEntity<List<CheckupResultResponse>> getCheckupResult(@AuthenticationPrincipal Member member) {
         return ResponseEntity.ok(checkupService.getCheckupResult(member));
-    }
-
-    @GetMapping("/{name}/{birth}")
-    public ResponseEntity<List<CheckupResultResponse>> getCheckupResult(@PathVariable String name, @PathVariable String birth) {
-        return ResponseEntity.ok().body(checkupService.getCheckupResult(name, birth));
     }
 
 }

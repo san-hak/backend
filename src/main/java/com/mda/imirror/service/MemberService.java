@@ -1,4 +1,4 @@
-package com.mda.imirror.service.impl;
+package com.mda.imirror.service;
 
 import com.mda.imirror.domain.entity.Member;
 import com.mda.imirror.dto.mapper.impl.MemberMapper;
@@ -14,10 +14,11 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService  {
+public class MemberService {
 
     private final MemberRepository memberRepository;
 
@@ -30,7 +31,6 @@ public class MemberService  {
                 .orElseThrow(MemberNotFoundException::new);
     }
 
-
     public Slice<MemberInquiryResponse> InquiryMembers() {
         PageRequest pageRequest = new PageRequest();
         Pageable pageable =  pageRequest.getPageable(Sort.by("memberName"));
@@ -38,24 +38,23 @@ public class MemberService  {
         return members.map(MemberMapper.MAPPER::toDto);
     }
 
-
     @Transactional
-    public void changeMemberInfo(MemberChangeInfoRequest request) {  //for admin
-        Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())
+    public void changeMemberInfo(MemberChangeInfoRequest request, String name, String birth) {  //for admin
+        LocalDate localDate = LocalDate.parse(birth);
+        Member member = memberRepository.findByMemberNameAndMemberBirthDate(name, localDate)
                 .orElseThrow(MemberNotFoundException::new);
         member.changeMemberInfo(
                 request.getMemberName(),
-                request.getMemberBirthDate(),
+                LocalDate.parse(request.getMemberBirthDate(), DateTimeFormatter.ISO_DATE),
                 request.getIsMale(),
                 request.getPersonalInfoConsent(),
                 null
         );
     }
 
-
     @Transactional
     public void changeMemberInfo(MemberChangeInfoRequest request, Member requester) {  //for user
-        Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), request.getMemberBirthDate())
+        Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), LocalDate.parse(request.getMemberBirthDate(), DateTimeFormatter.ISO_DATE))
                 .orElseThrow(MemberNotFoundException::new);
         if (!member.getMemberName().equals(requester.getMemberName())) {
             throw new UnAuthorizedException();
@@ -63,7 +62,7 @@ public class MemberService  {
 
         member.changeMemberInfo(
                 request.getMemberName(),
-                request.getMemberBirthDate(),
+                LocalDate.parse(request.getMemberBirthDate(),DateTimeFormatter.ISO_DATE),
                 request.getIsMale(),
                 request.getPersonalInfoConsent(),
                 null

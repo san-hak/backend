@@ -1,12 +1,9 @@
 package com.mda.imirror.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-
-import java.time.LocalDate;
 
 @Schema(description = "회원 정보 변경 request")
 @Getter
@@ -17,7 +14,7 @@ public class MemberChangeInfoRequest {
     private String memberName;
 
     @Schema(description = "생년월일", example = "1997-05-04")
-    private LocalDate memberBirthDate;
+    private String memberBirthDate;
 
     @Schema(description = "성별")
     private Boolean isMale;

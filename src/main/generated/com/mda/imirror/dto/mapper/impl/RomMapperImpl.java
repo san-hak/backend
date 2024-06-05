@@ -1,7 +1,5 @@
 package com.mda.imirror.dto.mapper.impl;
 
-import com.mda.imirror.domain.entity.Rom;
-import com.mda.imirror.domain.entity.Rom.RomBuilder;
 import com.mda.imirror.dto.checkup.RomDto;
 import javax.annotation.processing.Generated;
 

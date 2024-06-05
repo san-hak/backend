@@ -4,10 +4,7 @@ package com.mda.imirror.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @Schema(description = "로그인 request")
 @Getter
