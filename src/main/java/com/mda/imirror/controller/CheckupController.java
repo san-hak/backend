@@ -2,13 +2,13 @@ package com.mda.imirror.controller;
 
 import com.mda.imirror.domain.entity.Member;
 import com.mda.imirror.dto.request.CheckupResultRequest;
-import com.mda.imirror.dto.request.MemberNameAndBirthRequest;
 import com.mda.imirror.dto.response.CheckupResultResponse;
 import com.mda.imirror.service.CheckupService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,7 +29,7 @@ public class CheckupController {
             @ApiResponse(responseCode = "201", description = "등록 완료")
     })
     @PostMapping
-    public void registerCheckupResult(@RequestBody CheckupResultRequest request) {
+    public void registerCheckupResult(@RequestBody @Valid CheckupResultRequest request) {
         checkupService.registerCheckupResult(request);
     }
 
@@ -40,11 +40,6 @@ public class CheckupController {
     @GetMapping
     public ResponseEntity<List<CheckupResultResponse>> getCheckupResult(@AuthenticationPrincipal Member member) {
         return ResponseEntity.ok(checkupService.getCheckupResult(member));
-    }
-
-    @GetMapping("/{name}/{birth}")
-    public ResponseEntity<List<CheckupResultResponse>> getCheckupResult(@PathVariable String name, @PathVariable String birth) {
-        return ResponseEntity.ok().body(checkupService.getCheckupResult(MemberNameAndBirthRequest.builder().name(name).birth(birth).build()));
     }
 
 }

@@ -4,6 +4,8 @@ import com.mda.imirror.domain.entity.Member;
 import com.mda.imirror.dto.mapper.impl.MemberMapper;
 import com.mda.imirror.dto.request.MemberChangeInfoRequest;
 import com.mda.imirror.dto.response.MemberInquiryResponse;
+import jakarta.validation.Valid;
+
 import com.mda.imirror.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PutMapping
-    public void changeMemberInfo(@RequestBody MemberChangeInfoRequest request, @AuthenticationPrincipal Member member) {
+    public void changeMemberInfo(@RequestBody @Valid MemberChangeInfoRequest request, @AuthenticationPrincipal Member member) {
        memberService.changeMemberInfo(request, member);
 
     }

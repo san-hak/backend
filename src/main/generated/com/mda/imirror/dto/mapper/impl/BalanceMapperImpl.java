@@ -1,7 +1,5 @@
 package com.mda.imirror.dto.mapper.impl;
 
-import com.mda.imirror.domain.entity.Balance;
-import com.mda.imirror.domain.entity.Balance.BalanceBuilder;
 import com.mda.imirror.dto.checkup.BalanceDto;
 import javax.annotation.processing.Generated;
 

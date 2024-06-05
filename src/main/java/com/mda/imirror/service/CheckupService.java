@@ -1,17 +1,15 @@
 package com.mda.imirror.service;
-
-import com.mda.imirror.domain.entity.Balance;
 import com.mda.imirror.domain.entity.Member;
-import com.mda.imirror.domain.entity.Rom;
-import com.mda.imirror.dto.mapper.impl.BalanceMapper;
-import com.mda.imirror.dto.mapper.impl.RomMapper;
+import com.mda.imirror.domain.entity.Checkup;
+import com.mda.imirror.domain.enums.MemberRole;
+import com.mda.imirror.dto.mapper.impl.CheckupMapper;
+import com.mda.imirror.dto.mapper.impl.CheckupRequestMapper;
+
 import com.mda.imirror.dto.request.CheckupResultRequest;
-import com.mda.imirror.dto.request.MemberNameAndBirthRequest;
 import com.mda.imirror.dto.response.CheckupResultResponse;
 import com.mda.imirror.exception.MemberNotFoundException;
-import com.mda.imirror.repository.BalanceRepository;
 import com.mda.imirror.repository.MemberRepository;
-import com.mda.imirror.repository.RomRepository;
+import com.mda.imirror.repository.CheckupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +18,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class CheckupService {
 
     private final MemberRepository memberRepository;
-    private final RomRepository romRepository;
-    private final BalanceRepository balanceRepository;
+    private final CheckupRepository checkupRepository;
     private final AuthService authService;
 
     public void registerCheckupResult(CheckupResultRequest request) {
@@ -41,16 +37,15 @@ public class CheckupService {
                         .memberPk(UUID.randomUUID().toString())
                         .memberName(request.getMemberName())
                         .memberBirthDate( LocalDate.parse(request.getMemberBirthDate()))
-                        .role("ROLE_USER")
+                        .role(MemberRole.USER.toString())
                         .personalInfoConsent(true)  //임시
-                        .isMale(true)
+                        .isMale(null) //임시
+                        .recentCheckupDate(LocalDate.now())
                         .build());
 
-        Rom rom = Rom.builder()
-                .build();
 
-        Balance balance = Balance.builder()
-                .build();
+        Checkup checkup = CheckupRequestMapper.MAPPER.toEntity(request);
+
         member.changeMemberInfo(
                 null,
                 null,
@@ -61,33 +56,27 @@ public class CheckupService {
         );
 
         memberRepository.save(member);
-        romRepository.save(rom);
-        balanceRepository.save(balance);
+        checkupRepository.save(checkup);
     }
 
-    public List<CheckupResultResponse> getCheckupResult(MemberNameAndBirthRequest request) {
-        Member member = memberRepository.findByMemberNameAndMemberBirthDate(request.getName(), request.birthToLocalDate(request.getBirth()))
+    public List<CheckupResultResponse> getCheckupResult(String name, String birth) {
+        Member member = memberRepository.findByMemberNameAndMemberBirthDate(name, LocalDate.parse(birth, DateTimeFormatter.ISO_DATE))
                 .orElseThrow(MemberNotFoundException::new);
-
         return getCheckupResultResponses(member);
     }
+
 
     public List<CheckupResultResponse> getCheckupResult(Member member) {
         return getCheckupResultResponses(member);
     }
 
     private List<CheckupResultResponse> getCheckupResultResponses(Member member) {
-        List<Rom> roms = romRepository.findTop10ByMemberOrderByRomPkDesc(member);
-        List<Balance> balances = balanceRepository.findTop10ByMemberOrderByBalancePkDesc(member);
-
+        List<Checkup> checkups = checkupRepository.findTop10ByMemberOrderByRomPkDesc(member);
         List<CheckupResultResponse> response = new ArrayList<>();
-        int responseSize = Math.min(roms.size(), Math.min(balances.size(), 10));
+        int responseSize = Math.min(checkups.size(), 10);
 
         for (int i = 0; i < responseSize; i++) {
-            response.add(new CheckupResultResponse(
-                    RomMapper.MAPPER.toDto(roms.get(i)),
-                    BalanceMapper.MAPPER.toDto(balances.get(i))
-            ));
+            response.add(CheckupMapper.MAPPER.toDto(checkups.get(i)));
         }
         return response;
     }

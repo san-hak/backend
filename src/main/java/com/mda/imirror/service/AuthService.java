@@ -22,16 +22,16 @@ import java.time.format.DateTimeFormatter;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-
     private final MemberRepository memberRepository;
-    public MemberRegisterResponse register(MemberRegisterRequest request) {
 
+    public MemberRegisterResponse register(MemberRegisterRequest request) {
         Member member = Member.builder()
                 .memberName(request.getMemberName())
                 .memberBirthDate(LocalDate.parse(request.getMemberBirthDate(), DateTimeFormatter.ISO_DATE))
                 .isMale(request.getIsMale())
                 .personalInfoConsent(request.getPersonalInfoConsent())
                 .role(MemberRole.USER.toString())
+                .recentCheckupDate(null)
                 .build();
 
         if (memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), LocalDate.parse(request.getMemberBirthDate(), DateTimeFormatter.ISO_DATE)).isPresent()) {
