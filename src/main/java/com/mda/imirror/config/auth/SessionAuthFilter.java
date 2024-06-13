@@ -2,6 +2,7 @@ package com.mda.imirror.config.auth;
 
 import com.mda.imirror.domain.entity.Member;
 import com.mda.imirror.exception.UnAuthorizedException;
+import com.mda.imirror.exception.UnknownServerException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,28 +28,51 @@ public class SessionAuthFilter extends OncePerRequestFilter{
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
-//        System.out.println(Objects.equals(request.getHeader("Authorization"),token));
 //        System.out.println(request.getHeader("Authorization"));
+        System.out.println(request.getRequestURI());
 //        System.out.println(authKey.token);
 
 
 
         try {
-            if (request.getRequestURI().contains("/api/auth") || request.getHeader("Authorization").equals(authKey.token)) {
-//                System.out.println(authKey.token);
+            // 인증, 검사 결과 endpoint는 허용
+            if (request.getRequestURI().contains("/api/auth")) {
                 filterChain.doFilter(request, response);
                 return;
             }
-            Member user = (Member) request.getSession(false).getAttribute("member");
+
+            try {
+                if (request.getHeader("Authorization").equals(authKey.token)) {
+//              System.out.println(authKey.token);
+                    filterChain.doFilter(request, response);
+                    return;
+                }
+            } catch (NullPointerException nullPointerException) {
+                System.out.println(nullPointerException.getMessage());
+            }
+            // 인증, 검사 결과 endpoint는 허용
+
+
+
+            Member user = null;
+            try {
+                user = (Member) request.getSession(false).getAttribute("member");
+            } catch (NullPointerException nullPointerException) {
+                throw new UnAuthorizedException();
+            }
+
+            System.out.println(user);
 
             if (!isNull(user)) {
                 Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, Collections.singleton(new SimpleGrantedAuthority(user.getRole())));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+
             filterChain.doFilter(request, response);
-        } catch (NullPointerException | IOException | ServletException e) {
+
+        } catch (IOException | ServletException e) {
             System.out.println(e.getMessage());
-            throw new UnAuthorizedException();
+            throw new UnknownServerException();
         }
     }
 
