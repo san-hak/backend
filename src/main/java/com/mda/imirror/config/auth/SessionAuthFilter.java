@@ -20,7 +20,6 @@ import java.util.Collections;
 
 import static java.util.Objects.isNull;
 
-@Log4j2
 @RequiredArgsConstructor
 @Slf4j
 public class SessionAuthFilter extends OncePerRequestFilter{
