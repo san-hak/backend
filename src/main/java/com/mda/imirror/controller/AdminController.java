@@ -39,7 +39,7 @@ public class AdminController {
     @Operation(summary = "회원 전체 조회")
     @ApiResponse(responseCode = "200", description = "조회 성공")
     @GetMapping("")
-    public ResponseEntity getMembers(PageRequest request) {
+    public ResponseEntity getMembers(@RequestBody PageRequest request) {
         return ResponseEntity.ok().body(memberService.InquiryMembers(request.getPage(), request.getSize()));
     }
 

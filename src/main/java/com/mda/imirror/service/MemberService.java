@@ -30,7 +30,7 @@ public class MemberService {
 
     public Slice<MemberInquiryResponse> InquiryMembers(int page, int size) {
         PageRequest pageRequest = new PageRequest(page, size);
-        Pageable pageable =  pageRequest.getPageable(Sort.by("memberName"));
+        Pageable pageable = pageRequest.getPageable(Sort.by("memberName"));
         Slice<Member> members = memberRepository.findAllByOrderByMemberName(pageable);
         return members.map(MemberMapper.MAPPER::toDto);
     }

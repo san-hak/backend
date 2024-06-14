@@ -15,6 +15,8 @@ public class PageRequest {
     @Schema(description = "페이지당 결과 개수", example = "20")
     private int size;
 
+    public PageRequest() {}
+
     public PageRequest(int page, int size) {
         this.page = page;
         this.size = size;
