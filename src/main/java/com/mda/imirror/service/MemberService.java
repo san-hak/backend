@@ -28,8 +28,8 @@ public class MemberService {
                 .orElseThrow(MemberNotFoundException::new);
     }
 
-    public Slice<MemberInquiryResponse> InquiryMembers() {
-        PageRequest pageRequest = new PageRequest();
+    public Slice<MemberInquiryResponse> InquiryMembers(int page, int size) {
+        PageRequest pageRequest = new PageRequest(page, size);
         Pageable pageable =  pageRequest.getPageable(Sort.by("memberName"));
         Slice<Member> members = memberRepository.findAllByOrderByMemberName(pageable);
         return members.map(MemberMapper.MAPPER::toDto);

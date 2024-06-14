@@ -15,9 +15,9 @@ public class PageRequest {
     @Schema(description = "페이지당 결과 개수", example = "20")
     private int size;
 
-    public PageRequest() {
-        this.page = 1;
-        this.size = 20;
+    public PageRequest(int page, int size) {
+        this.page = page;
+        this.size = size;
     }
 
     public Pageable getPageable(Sort sort) {

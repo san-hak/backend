@@ -1,6 +1,7 @@
 package com.mda.imirror.controller;
 
 import com.mda.imirror.dto.request.MemberChangeInfoRequest;
+import com.mda.imirror.dto.request.PageRequest;
 import com.mda.imirror.dto.response.CheckupResultResponse;
 import com.mda.imirror.service.CheckupService;
 import com.mda.imirror.service.MemberService;
@@ -38,8 +39,8 @@ public class AdminController {
     @Operation(summary = "회원 전체 조회")
     @ApiResponse(responseCode = "200", description = "조회 성공")
     @GetMapping("")
-    public ResponseEntity getMembers() {
-        return ResponseEntity.ok().body(memberService.InquiryMembers());
+    public ResponseEntity getMembers(PageRequest request) {
+        return ResponseEntity.ok().body(memberService.InquiryMembers(request.getPage(), request.getSize()));
     }
 
     @Operation(summary = "회원 정보 변경", description = "이름, 생년월일, 성별 변경 가능")
