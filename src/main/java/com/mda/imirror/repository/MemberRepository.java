@@ -13,11 +13,6 @@ import java.util.Optional;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, String> {
     Optional<Member> findByMemberNameAndMemberBirthDate(String memberName, LocalDate memberBirthDate);
-
-    @Query("select m " +
-            "from Member m " +
-            "where m.memberName = :name " +
-            "and m.role != 'ROLE_ADMIN'")
     Optional<Member> findByMemberName(String name);
 
     @Query("select m " +
