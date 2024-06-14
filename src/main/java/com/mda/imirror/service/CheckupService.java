@@ -24,7 +24,6 @@ public class CheckupService {
 
     private final MemberRepository memberRepository;
     private final CheckupRepository checkupRepository;
-    private final AuthService authService;
 
     public void registerCheckupResult(CheckupResultRequest request) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
