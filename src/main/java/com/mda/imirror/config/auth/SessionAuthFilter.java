@@ -8,7 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,6 +22,7 @@ import static java.util.Objects.isNull;
 
 @Log4j2
 @RequiredArgsConstructor
+@Slf4j
 public class SessionAuthFilter extends OncePerRequestFilter{
 
     private final AuthKey authKey;
@@ -29,10 +30,6 @@ public class SessionAuthFilter extends OncePerRequestFilter{
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
-//        System.out.println(request.getHeader("Authorization"));
-        log.info(request.getRequestURI());
-//        System.out.println(authKey.token);
-
 
 
         try {
@@ -44,12 +41,12 @@ public class SessionAuthFilter extends OncePerRequestFilter{
 
             try {
                 if (request.getHeader("Authorization").equals(authKey.token)) {
-//              System.out.println(authKey.token);
                     filterChain.doFilter(request, response);
                     return;
                 }
             } catch (NullPointerException nullPointerException) {
-                log.error(nullPointerException.getMessage());
+                log.info(nullPointerException.getMessage());
+
             }
             // 인증, 검사 결과 endpoint는 허용
 
@@ -61,8 +58,6 @@ public class SessionAuthFilter extends OncePerRequestFilter{
             } catch (NullPointerException nullPointerException) {
                 throw new UnAuthorizedException();
             }
-
-            log.info(user);
 
             if (!isNull(user)) {
                 Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, Collections.singleton(new SimpleGrantedAuthority(user.getRole())));

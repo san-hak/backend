@@ -6,12 +6,16 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 
 @Data
 @AllArgsConstructor
 public class PrincipalDetails implements UserDetails {
+
+    @Serial
+    private static final long serialVersionUID = 758939341927597967L;
 
     private Member member;
     @Override
@@ -20,7 +24,6 @@ public class PrincipalDetails implements UserDetails {
         collect.add(new GrantedAuthority(){
             @Override
             public String getAuthority() {
-                System.out.println(member.getRole());
                 return member.getRole();
             }
         });

@@ -38,7 +38,6 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "로그인 완료")
     })
     @PostMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<MemberLoginResponse> login(@RequestBody @Valid MemberLoginRequest request, HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(authService.login(request, httpServletRequest));
 
