@@ -1,6 +1,7 @@
 package com.mda.imirror.controller;
 
 import com.mda.imirror.dto.request.MemberChangeInfoRequest;
+import com.mda.imirror.dto.request.PageRequest;
 import com.mda.imirror.dto.response.CheckupResultResponse;
 import com.mda.imirror.dto.response.MemberInquiryResponse;
 import com.mda.imirror.service.CheckupService;
@@ -39,20 +40,23 @@ public class AdminController {
 
 
     @Operation(summary = "회원 검색", description = "Path에 name 필요")
-
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공")
+    })
+    @GetMapping("/{name}")
     public ResponseEntity<Slice<MemberInquiryResponse>> getMember(
             @Parameter(name = "name", description = "이름") @PathVariable String name,
             @Parameter(name = "page", description = "페이지") @RequestParam(defaultValue = "1") int page,
             @Parameter(name = "size", description = "페이지당 결과 개수") @RequestParam(defaultValue = "20") int size) {
-        return ResponseEntity.ok().body(memberService.findMemberByNameWithBirth(name));
+        return ResponseEntity.ok().body(memberService.findMemberByName(name));
     }
 
 
     @Operation(summary = "회원 전체 조회")
     @ApiResponse(responseCode = "200", description = "조회 성공")
     @GetMapping("")
-    public ResponseEntity<Slice<MemberInquiryResponse>> getMembers() {
-        return ResponseEntity.ok().body(memberService.InquiryMembers());
+    public ResponseEntity<Slice<MemberInquiryResponse>> getMembers(PageRequest request) {
+        return ResponseEntity.ok().body(memberService.InquiryMembers(request.getPage(), request.getSize()));
     }
 
     @Operation(summary = "회원 정보 변경", description = "이름, 생년월일, 성별 변경 가능")
