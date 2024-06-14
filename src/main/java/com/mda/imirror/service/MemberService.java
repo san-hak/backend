@@ -22,9 +22,6 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-
-
-
     public MemberInquiryResponse findMemberByNameWithBirth(String name, String birth) {
         LocalDate localDate = LocalDate.parse(birth);
         return memberRepository.findByMemberNameAndMemberBirthDate(name, localDate).map(MemberMapper.MAPPER::toDto)
