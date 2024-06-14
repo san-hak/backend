@@ -18,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class CheckupService {
@@ -26,33 +27,22 @@ public class CheckupService {
     private final CheckupRepository checkupRepository;
 
     public void registerCheckupResult(CheckupResultRequest request) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(request.getMemberBirthDate(), formatter);
 
-
-
-        Member member= memberRepository.findByMemberNameAndMemberBirthDateAndRoleNot(request.getMemberName(),date, "ROLE_ADMIN")
+        Member member = memberRepository.findByMemberNameAndMemberBirthDateAndRoleNot(request.getMemberName(),date, "ROLE_ADMIN")
                 .orElseGet(() -> Member.builder()
                         .memberPk(UUID.randomUUID().toString())
                         .memberName(request.getMemberName())
-                        .memberBirthDate( LocalDate.parse(request.getMemberBirthDate()))
-                        .role(MemberRole.USER.toString())
+                        .memberBirthDate(LocalDate.parse(request.getMemberBirthDate()))
+                        .role(MemberRole.USER.getKey())
                         .personalInfoConsent(true)  //임시
-                        .isMale(null) //임시
+                        .isMale(true) //임시
                         .recentCheckupDate(LocalDate.now())
                         .build());
 
-
         Checkup checkup = CheckupRequestMapper.MAPPER.toEntity(request);
-
-        member.changeMemberInfo(
-                null,
-                null,
-                null,
-                null,
-                LocalDate.now()
-
-        );
+        checkup.registerMember(member);
 
         memberRepository.save(member);
         checkupRepository.save(checkup);
