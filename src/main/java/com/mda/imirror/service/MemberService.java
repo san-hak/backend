@@ -32,9 +32,6 @@ public class MemberService {
         PageRequest pageRequest = new PageRequest(page, size);
         Pageable pageable = pageRequest.getPageable(Sort.by("memberName"));
         Slice<Member> members = memberRepository.findAllByOrderByMemberName(pageable);
-        members.forEach(i -> {
-            System.out.println(i.toString());
-        });
         return members.map(MemberMapper.MAPPER::toDto);
     }
 

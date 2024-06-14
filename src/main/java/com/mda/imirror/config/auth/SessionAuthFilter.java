@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,10 +17,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Objects;
 
 import static java.util.Objects.isNull;
 
+@Log4j2
 @RequiredArgsConstructor
 public class SessionAuthFilter extends OncePerRequestFilter{
 
@@ -29,7 +30,7 @@ public class SessionAuthFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
 //        System.out.println(request.getHeader("Authorization"));
-        System.out.println(request.getRequestURI());
+        log.info(request.getRequestURI());
 //        System.out.println(authKey.token);
 
 
@@ -48,7 +49,7 @@ public class SessionAuthFilter extends OncePerRequestFilter{
                     return;
                 }
             } catch (NullPointerException nullPointerException) {
-                System.out.println(nullPointerException.getMessage());
+                log.error(nullPointerException.getMessage());
             }
             // 인증, 검사 결과 endpoint는 허용
 
@@ -61,7 +62,7 @@ public class SessionAuthFilter extends OncePerRequestFilter{
                 throw new UnAuthorizedException();
             }
 
-            System.out.println(user);
+            log.info(user);
 
             if (!isNull(user)) {
                 Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, Collections.singleton(new SimpleGrantedAuthority(user.getRole())));
@@ -71,7 +72,7 @@ public class SessionAuthFilter extends OncePerRequestFilter{
             filterChain.doFilter(request, response);
 
         } catch (IOException | ServletException e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
             throw new UnknownServerException();
         }
     }
