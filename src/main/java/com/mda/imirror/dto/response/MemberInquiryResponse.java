@@ -16,7 +16,7 @@ public class MemberInquiryResponse {
     private String memberName;
 
     @Schema(description = "성별")
-    private String memberGender;
+    private Boolean isMale;
 
     @Schema(description = "생년월일", example = "1997-05-04")
     private LocalDate memberBirthDate;

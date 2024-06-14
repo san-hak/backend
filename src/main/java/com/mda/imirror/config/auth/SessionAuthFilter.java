@@ -17,10 +17,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Objects;
 
 import static java.util.Objects.isNull;
 
+@Log4j2
 @RequiredArgsConstructor
 @Slf4j
 public class SessionAuthFilter extends OncePerRequestFilter{
@@ -30,6 +30,7 @@ public class SessionAuthFilter extends OncePerRequestFilter{
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
+
 
         try {
             // 인증, 검사 결과 endpoint는 허용
@@ -45,6 +46,7 @@ public class SessionAuthFilter extends OncePerRequestFilter{
                 }
             } catch (NullPointerException nullPointerException) {
                 log.info(nullPointerException.getMessage());
+
             }
             // 인증, 검사 결과 endpoint는 허용
 
