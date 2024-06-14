@@ -1,6 +1,5 @@
 package com.mda.imirror.domain.entity;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -104,4 +103,9 @@ public class Checkup {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_pk", nullable = false)
     private Member member;
+
+    public void registerMember(Member member) {
+        this.member = member;
+    }
+
 }
