@@ -31,6 +31,13 @@ public class MemberService {
                 .orElseThrow(MemberNotFoundException::new);
     }
 
+    public Slice<MemberInquiryResponse> findMemberByName(String name) {
+        PageRequest pageRequest = new PageRequest();
+        Pageable pageable =  pageRequest.getPageable(Sort.by("memberName"));
+        Slice<Member> members = memberRepository.findAllByOrderByMemberName(pageable);
+        return members.map(MemberMapper.MAPPER::toDto);
+    }
+
     public Slice<MemberInquiryResponse> InquiryMembers() {
         PageRequest pageRequest = new PageRequest();
         Pageable pageable =  pageRequest.getPageable(Sort.by("memberName"));

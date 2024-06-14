@@ -2,6 +2,7 @@ package com.mda.imirror.controller;
 
 import com.mda.imirror.dto.request.MemberChangeInfoRequest;
 import com.mda.imirror.dto.response.CheckupResultResponse;
+import com.mda.imirror.dto.response.MemberInquiryResponse;
 import com.mda.imirror.service.CheckupService;
 import com.mda.imirror.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,15 +32,26 @@ public class AdminController {
             @ApiResponse(responseCode = "404", description = "해당 유저가 존재하지 않음")
     })
     @GetMapping("/{name}/{birth}")
-    public ResponseEntity getMember(@Parameter(name = "name", description = "이름") @PathVariable String name,
-                                    @Parameter(name = "birth", description = "생년월일") @PathVariable String birth) {
+    public ResponseEntity<MemberInquiryResponse> getMember(@Parameter(name = "name", description = "이름") @PathVariable String name,
+                                                           @Parameter(name = "birth", description = "생년월일") @PathVariable String birth) {
         return ResponseEntity.ok().body(memberService.findMemberByNameWithBirth(name, birth));
     }
+
+
+    @Operation(summary = "회원 검색", description = "Path에 name 필요")
+
+    public ResponseEntity<Slice<MemberInquiryResponse>> getMember(
+            @Parameter(name = "name", description = "이름") @PathVariable String name,
+            @Parameter(name = "page", description = "페이지") @RequestParam(defaultValue = "1") int page,
+            @Parameter(name = "size", description = "페이지당 결과 개수") @RequestParam(defaultValue = "20") int size) {
+        return ResponseEntity.ok().body(memberService.findMemberByNameWithBirth(name));
+    }
+
 
     @Operation(summary = "회원 전체 조회")
     @ApiResponse(responseCode = "200", description = "조회 성공")
     @GetMapping("")
-    public ResponseEntity getMembers() {
+    public ResponseEntity<Slice<MemberInquiryResponse>> getMembers() {
         return ResponseEntity.ok().body(memberService.InquiryMembers());
     }
 
