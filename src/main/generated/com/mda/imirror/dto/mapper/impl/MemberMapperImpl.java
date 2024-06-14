@@ -3,27 +3,30 @@ package com.mda.imirror.dto.mapper.impl;
 import com.mda.imirror.domain.entity.Member;
 import com.mda.imirror.domain.entity.Member.MemberBuilder;
 import com.mda.imirror.dto.response.MemberInquiryResponse;
+import com.mda.imirror.dto.response.MemberInquiryResponse.MemberInquiryResponseBuilder;
 import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-05-28T18:16:14+0900",
+    date = "2024-06-14T10:35:25+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.11 (JetBrains s.r.o.)"
 )
 public class MemberMapperImpl implements MemberMapper {
 
     @Override
-    public MemberInquiryResponse toDto(Member entity) {
-        if ( entity == null ) {
+    public MemberInquiryResponse toDto(Member member) {
+        if ( member == null ) {
             return null;
         }
 
-        MemberInquiryResponse memberInquiryResponse = new MemberInquiryResponse();
+        MemberInquiryResponseBuilder memberInquiryResponse = MemberInquiryResponse.builder();
 
-        memberInquiryResponse.setMemberName( entity.getMemberName() );
-        memberInquiryResponse.setMemberBirthDate( entity.getMemberBirthDate() );
+        memberInquiryResponse.recentTestDate( member.getRecentCheckupDate() );
+        memberInquiryResponse.memberName( member.getMemberName() );
+        memberInquiryResponse.isMale( member.getIsMale() );
+        memberInquiryResponse.memberBirthDate( member.getMemberBirthDate() );
 
-        return memberInquiryResponse;
+        return memberInquiryResponse.build();
     }
 
     @Override
@@ -35,6 +38,7 @@ public class MemberMapperImpl implements MemberMapper {
         MemberBuilder member = Member.builder();
 
         member.memberName( dto.getMemberName() );
+        member.isMale( dto.getIsMale() );
         member.memberBirthDate( dto.getMemberBirthDate() );
 
         return member.build();
