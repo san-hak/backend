@@ -1,9 +1,7 @@
 package com.mda.imirror.service;
-
 import com.mda.imirror.domain.entity.Member;
 import com.mda.imirror.dto.mapper.impl.MemberMapper;
 import com.mda.imirror.dto.request.MemberChangeInfoRequest;
-import com.mda.imirror.dto.request.PageRequest;
 import com.mda.imirror.dto.response.MemberInquiryResponse;
 import com.mda.imirror.exception.MemberNotFoundException;
 import com.mda.imirror.exception.UnAuthorizedException;
@@ -24,22 +22,20 @@ public class MemberService {
 
     public MemberInquiryResponse findMemberByNameWithBirth(String name, String birth) {
         LocalDate localDate = LocalDate.parse(birth);
-        return memberRepository.findByMemberNameAndMemberBirthDate(name, localDate).map(MemberMapper.MAPPER::toDto)
+        return memberRepository.findByMemberNameAndMemberBirthDateAndRoleNot(name, localDate, "ADMIN").map(MemberMapper.MAPPER::toDto)
                 .orElseThrow(MemberNotFoundException::new);
     }
 
-    public Slice<MemberInquiryResponse> findMemberByName(String name) {
-        PageRequest pageRequest = new PageRequest();
-        Pageable pageable =  pageRequest.getPageable(Sort.by("memberName"));
-        Slice<Member> members = memberRepository.findAllByOrderByMemberName(pageable);
+    public Slice<MemberInquiryResponse> findMemberByName(String name, int page, int size) {
+        Pageable pageable = PageRequest.of(page-1, size, Sort.by("memberName"));
+        Slice<Member> members = memberRepository.findByMemberNameAndRoleNotOrderByMemberBirthDateAsc(name, "ADMIN",pageable);
         return members.map(MemberMapper.MAPPER::toDto);
     }
 
 
     public Slice<MemberInquiryResponse> InquiryMembers(int page, int size) {
-        PageRequest pageRequest = new PageRequest(page, size);
-        Pageable pageable = pageRequest.getPageable(Sort.by("memberName"));
-        Slice<Member> members = memberRepository.findAllByOrderByMemberName(pageable);
+        Pageable pageable = PageRequest.of(page-1, size, Sort.by("memberName"));
+        Slice<Member> members = memberRepository.findByRoleNotOrderByMemberNameAscMemberBirthDateAsc("ADMIN", pageable);
         return members.map(MemberMapper.MAPPER::toDto);
     }
 

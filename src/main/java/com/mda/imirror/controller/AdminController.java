@@ -48,15 +48,18 @@ public class AdminController {
             @Parameter(name = "name", description = "이름") @PathVariable String name,
             @Parameter(name = "page", description = "페이지") @RequestParam(defaultValue = "1") int page,
             @Parameter(name = "size", description = "페이지당 결과 개수") @RequestParam(defaultValue = "20") int size) {
-        return ResponseEntity.ok().body(memberService.findMemberByName(name));
+        return ResponseEntity.ok().body(memberService.findMemberByName(name, page, size));
     }
 
 
     @Operation(summary = "회원 전체 조회")
     @ApiResponse(responseCode = "200", description = "조회 성공")
     @GetMapping("")
-    public ResponseEntity<Slice<MemberInquiryResponse>> getMembers(PageRequest request) {
-        return ResponseEntity.ok().body(memberService.InquiryMembers(request.getPage(), request.getSize()));
+    public ResponseEntity<Slice<MemberInquiryResponse>> getMembers(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int size
+    ) {
+        return ResponseEntity.ok().body(memberService.InquiryMembers(page, size));
     }
 
     @Operation(summary = "회원 정보 변경", description = "이름, 생년월일, 성별 변경 가능")

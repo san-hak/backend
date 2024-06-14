@@ -14,6 +14,7 @@ import com.mda.imirror.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
     private final MemberRepository memberRepository;
 
@@ -30,9 +32,11 @@ public class AuthService {
                 .memberBirthDate(LocalDate.parse(request.getMemberBirthDate(), DateTimeFormatter.ISO_DATE))
                 .isMale(request.getIsMale())
                 .personalInfoConsent(request.getPersonalInfoConsent())
-                .role(MemberRole.USER.toString())
+                .role(MemberRole.USER.getKey())
                 .recentCheckupDate(null)
                 .build();
+
+        log.info(member.getRole());
 
         if (memberRepository.findByMemberNameAndMemberBirthDate(request.getMemberName(), LocalDate.parse(request.getMemberBirthDate(), DateTimeFormatter.ISO_DATE)).isPresent()) {
             throw new DuplicateMemberException();
