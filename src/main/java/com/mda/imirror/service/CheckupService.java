@@ -31,7 +31,7 @@ public class CheckupService {
 
 
 
-        Member member= memberRepository.findByMemberNameAndMemberBirthDateAndRoleNot(request.getMemberName(),date, "ADMIN")
+        Member member= memberRepository.findByMemberNameAndMemberBirthDateAndRoleNot(request.getMemberName(),date, "ROLE_ADMIN")
                 .orElseGet(() -> Member.builder()
                         .memberPk(UUID.randomUUID().toString())
                         .memberName(request.getMemberName())
@@ -59,7 +59,7 @@ public class CheckupService {
     }
 
     public List<CheckupResultResponse> getCheckupResult(String name, String birth) {
-        Member member = memberRepository.findByMemberNameAndMemberBirthDateAndRoleNot(name, LocalDate.parse(birth, DateTimeFormatter.ISO_DATE), "ADMIN")
+        Member member = memberRepository.findByMemberNameAndMemberBirthDateAndRoleNot(name, LocalDate.parse(birth, DateTimeFormatter.ISO_DATE), "ROLE_ADMIN")
                 .orElseThrow(MemberNotFoundException::new);
         return getCheckupResultResponses(member);
     }
