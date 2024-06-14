@@ -22,20 +22,20 @@ public class MemberService {
 
     public MemberInquiryResponse findMemberByNameWithBirth(String name, String birth) {
         LocalDate localDate = LocalDate.parse(birth);
-        return memberRepository.findByMemberNameAndMemberBirthDateAndRoleNot(name, localDate, "ADMIN").map(MemberMapper.MAPPER::toDto)
+        return memberRepository.findByMemberNameAndMemberBirthDateAndRoleNot(name, localDate, "ROLE_ADMIN").map(MemberMapper.MAPPER::toDto)
                 .orElseThrow(MemberNotFoundException::new);
     }
 
     public Slice<MemberInquiryResponse> findMemberByName(String name, int page, int size) {
         Pageable pageable = PageRequest.of(page-1, size, Sort.by("memberName"));
-        Slice<Member> members = memberRepository.findByMemberNameAndRoleNotOrderByMemberBirthDateAsc(name, "ADMIN",pageable);
+        Slice<Member> members = memberRepository.findByMemberNameContainsAndRoleNotOrderByMemberBirthDateAsc(name, "ROLE_ADMIN",pageable);
         return members.map(MemberMapper.MAPPER::toDto);
     }
 
 
     public Slice<MemberInquiryResponse> InquiryMembers(int page, int size) {
         Pageable pageable = PageRequest.of(page-1, size, Sort.by("memberName"));
-        Slice<Member> members = memberRepository.findByRoleNotOrderByMemberNameAscMemberBirthDateAsc("ADMIN", pageable);
+        Slice<Member> members = memberRepository.findByRoleNotOrderByMemberNameAscMemberBirthDateAsc("ROLE_ADMIN", pageable);
         return members.map(MemberMapper.MAPPER::toDto);
     }
 

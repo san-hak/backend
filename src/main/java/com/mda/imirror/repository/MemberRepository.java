@@ -31,7 +31,9 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 //            "and m.role != 'ROLE_ADMIN'")
 //    Slice<Member> findAllByMemberNameOrderByMemberName(String name, Pageable pageable);
 
-    Slice<Member> findByMemberNameAndRoleNotOrderByMemberBirthDateAsc(String memberName, String role, Pageable pageable);
+//    Slice<Member> findByMemberNameAndRoleNotOrderByMemberBirthDateAsc(String memberName, String role, Pageable pageable);
+
+    Slice<Member> findByMemberNameContainsAndRoleNotOrderByMemberBirthDateAsc(String memberName, String role, Pageable pageable);
 
 
     Optional<Member> findByMemberName(String name);
