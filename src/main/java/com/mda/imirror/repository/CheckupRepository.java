@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface CheckupRepository extends JpaRepository<Checkup, Integer> {
-    List<Checkup> findTop10ByMemberOrderByRomPkDesc(Member member);
+    List<Checkup> findTop10ByMemberOrderByCheckupPkDesc(Member member);
 
 
 }

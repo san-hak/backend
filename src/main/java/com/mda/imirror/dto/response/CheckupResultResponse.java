@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Schema(description = "결과 조회 response")
 @Getter
 @Setter
@@ -87,5 +89,7 @@ public class CheckupResultResponse {
     private Double neckTwisted;
 
     private Double shoulderRolled;
+
+    private LocalDate createdAt;
 
 }
