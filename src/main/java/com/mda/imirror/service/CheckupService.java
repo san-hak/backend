@@ -60,7 +60,7 @@ public class CheckupService {
     }
 
     private List<CheckupResultResponse> getCheckupResultResponses(Member member) {
-        List<Checkup> checkups = checkupRepository.findTop10ByMemberOrderByRomPkDesc(member);
+        List<Checkup> checkups = checkupRepository.findTop10ByMemberOrderByCheckupPkDesc(member);
         List<CheckupResultResponse> response = new ArrayList<>();
         int responseSize = Math.min(checkups.size(), 10);
 
