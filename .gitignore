@@ -38,3 +38,4 @@ out/
 /src/main/java/com/mda/imirror/domain/enums
 
 application.properties
+generated/
