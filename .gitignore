@@ -37,3 +37,4 @@ out/
 .vscode/
 /src/main/java/com/mda/imirror/domain/enums
 
+application.properties
