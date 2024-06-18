@@ -42,9 +42,15 @@ public class CheckupService {
                         .role(MemberRole.USER.getKey())
                         .personalInfoConsent(true)  //임시
                         .isMale(true) //임시
-                        .recentCheckupDate(LocalDate.now())
                         .build());
 
+        member.changeMemberInfo(
+                null,
+                null,
+                null,
+                null,
+                LocalDate.now()
+        );
         Checkup checkup = CheckupRequestMapper.MAPPER.toEntity(request);
         checkup.registerMember(member);
 
