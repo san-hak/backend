@@ -5,6 +5,7 @@ import com.mda.imirror.dto.request.MemberChangeInfoRequest;
 import com.mda.imirror.dto.response.MemberInquiryResponse;
 import com.mda.imirror.exception.MemberNotFoundException;
 import com.mda.imirror.exception.UnAuthorizedException;
+import com.mda.imirror.repository.CheckupRepository;
 import com.mda.imirror.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,9 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +41,7 @@ public class MemberService {
         Slice<Member> members = memberRepository.findByRoleNotOrderByMemberNameAscMemberBirthDateAsc("ROLE_ADMIN", pageable);
         return members.map(MemberMapper.MAPPER::toDto);
     }
+
 
     @Transactional
     public void changeMemberInfo(MemberChangeInfoRequest request, String name, String birth) {  //for admin

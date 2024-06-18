@@ -11,16 +11,20 @@ import com.mda.imirror.exception.MemberNotFoundException;
 import com.mda.imirror.repository.MemberRepository;
 import com.mda.imirror.repository.CheckupRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CheckupService {
 
     private final MemberRepository memberRepository;
@@ -48,25 +52,27 @@ public class CheckupService {
         checkupRepository.save(checkup);
     }
 
-    public List<CheckupResultResponse> getCheckupResult(String name, String birth) {
+    public Slice<CheckupResultResponse> getCheckupResult(String name, String birth, int page, int size, String startDate, String endDate) {
+        LocalDateTime startAt = LocalDate.parse(startDate).atStartOfDay();
+        LocalDateTime endAt = LocalDate.parse(endDate).atTime(23, 59, 59);
+
         Member member = memberRepository.findByMemberNameAndMemberBirthDateAndRoleNot(name, LocalDate.parse(birth, DateTimeFormatter.ISO_DATE), "ROLE_ADMIN")
                 .orElseThrow(MemberNotFoundException::new);
-        return getCheckupResultResponses(member);
+
+        return checkupRepository.findByMemberAndCreatedAtBetweenOrderByCreatedAtDesc(member, startAt, endAt, PageRequest.of(page-1, size))
+                .map(CheckupMapper.MAPPER::toDto);
     }
 
-
-    public List<CheckupResultResponse> getCheckupResult(Member member) {
-        return getCheckupResultResponses(member);
+    public List<LocalDate> getCheckupDates(Member member) {
+        return checkupRepository.findByMemberOrderByCreatedAtDesc(member).stream().map(checkupInfo -> checkupInfo.getCreatedAt().toLocalDate()).toList();
     }
 
-    private List<CheckupResultResponse> getCheckupResultResponses(Member member) {
-        List<Checkup> checkups = checkupRepository.findTop10ByMemberOrderByCheckupPkDesc(member);
-        List<CheckupResultResponse> response = new ArrayList<>();
-        int responseSize = Math.min(checkups.size(), 10);
+    public Slice<CheckupResultResponse> getCheckupResult(Member member, int page, int size, String startDate, String endDate) {
 
-        for (int i = 0; i < responseSize; i++) {
-            response.add(CheckupMapper.MAPPER.toDto(checkups.get(i)));
-        }
-        return response;
+        LocalDateTime startAt = LocalDate.parse(startDate).atStartOfDay();
+        LocalDateTime endAt = LocalDate.parse(endDate).atTime(23, 59, 59);
+
+        return checkupRepository.findByMemberAndCreatedAtBetweenOrderByCreatedAtDesc(member, startAt, endAt, PageRequest.of(page-1, size))
+                .map(CheckupMapper.MAPPER::toDto);
     }
 }
