@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/user/checkup")
 @RequiredArgsConstructor
+@Slf4j
 public class CheckupController {
 
     private final CheckupService checkupService;
@@ -39,8 +42,13 @@ public class CheckupController {
             @ApiResponse(responseCode = "200", description = "조회 성공")
     })
     @GetMapping
-    public ResponseEntity<List<CheckupResultResponse>> getCheckupResult(@AuthenticationPrincipal Member member) {
-        return ResponseEntity.ok(checkupService.getCheckupResult(member));
+    public ResponseEntity<Slice<CheckupResultResponse>> getCheckupResult(
+            @AuthenticationPrincipal Member member,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "1000-01-01") String startDate,
+            @RequestParam(defaultValue = "3000-01-01") String endDate) {
+        return ResponseEntity.ok(checkupService.getCheckupResult(member, page, size, startDate, endDate));
     }
 
 }

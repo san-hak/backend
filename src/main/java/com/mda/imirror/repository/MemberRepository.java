@@ -47,4 +47,5 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     Slice<Member> findByRoleNotOrderByMemberNameAscMemberBirthDateAsc(String role, Pageable pageable);
 
 
+
 }

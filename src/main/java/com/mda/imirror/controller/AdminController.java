@@ -79,7 +79,13 @@ public class AdminController {
     @Operation(summary = "회원 검사 이력 조회")
     @ApiResponse(responseCode = "200", description = "조회 성공")
     @GetMapping("checkup/{name}/{birth}")
-    public ResponseEntity<List<CheckupResultResponse>> getUserCheckupResult(@PathVariable String name, @PathVariable String birth) {
-        return ResponseEntity.ok().body(checkupService.getCheckupResult(name, birth));
+    public ResponseEntity<Slice<CheckupResultResponse>> getUserCheckupResult(
+            @PathVariable String name,
+            @PathVariable String birth,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "1000-01-01") String startDate,
+            @RequestParam(defaultValue = "3000-01-01") String endDate) {
+        return ResponseEntity.ok().body(checkupService.getCheckupResult(name, birth, page, size, startDate, endDate));
     }
 }
